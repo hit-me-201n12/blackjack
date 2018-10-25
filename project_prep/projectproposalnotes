@@ -1,0 +1,32 @@
+Ask TA/Instructors:
+Situation w/ Astrid - if we should put any limitations on her involvement, or just keep open for all of project week
+Keep space!
+How should we organize our Github Issues?
+By Day?
+By User Stories
+All UXs - how to implement these in code
+More often what a PM will give you on the job
+By Feature?
+Our project may be too simple to do by feature
+Depends on projects, what best method is.
+Broadest way is done and in progress.
+Nicholas like to do Done, In Progress, and Days
+Try to scope out where those fit into the days
+
+Stretch - using keypresses - spacebar and return
+
+Nick’s tips:
+Constructor for a user stays the same
+
+If everything is modular - can run shadow hands in the background. Can deal out hands in the background, making stretch goals easier, especially counting cards.
+Track index 0 of players
+
+Counting card logic - different styles of 21 in Vegas
+Having a full table will fulfill this. Also they use two decks, which can change your card counting methods.
+
+One deck before reshuffle - 1-2 hands. Check vegas poker rules. Do we implement those roles, or a switch between them?
+
+QA Tester for app, with a deck of cards - Michael A., David.
+Saturday, testing rounds?
+
+Coding in preventing a user from getting a triple or quadruple split (if we’re able do the split stretch goal)
