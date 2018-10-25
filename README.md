@@ -46,4 +46,15 @@ as a designer, I would like our application to be unique to our envisioned aesth
 
 *as a user, I would like to play with my friends*
 
-**
+#==================
+group agreement
+
+We commit to hashing issues out - discuss and debate our points. Use pro/con to see what would work best for a given situation. If needed, take a break and come back to the issue later.
+
+Be respectful. No egos, only code.
+
+Raising concerns for members who are not adequately contributing. We already have space given for Astrid, and would need to discuss further details on her involvement. If she comes around for project week, we will find work for her, up to a certain point?
+
+Otherwise, we will fall back on our previous points about hashing out issues for the rest of the group if we feel like someone isn’t contributing.
+
+If we need to escalate conflict, we’ll contact TAs and the instructor.
