@@ -13,6 +13,9 @@ partner agreement
 
     be humble 
 
+#==============================
+communication
+were all mindfull that we work in the weekdays, and we are planning on communicating at the beginning of each class, we will be somewhat available outside of those hours, but if something isnt communicable we will break until next class
 
 blackjack game for CodeFellows 201n12
 
