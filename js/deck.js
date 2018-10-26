@@ -1,6 +1,6 @@
 'use strict'
 
-function Card (value, suit) {
+function Card (value, suit) { // card object - also has a reference to source file
     this.value = value;
     this.suit = suit;
     this.face = 'down';
@@ -12,7 +12,7 @@ function Card (value, suit) {
 //Card objects
 
 
-function Deck () {
+function Deck () { // make a deck of 52 cards
     this.inPlay = [];
     this.disCard = [];
 };
@@ -40,9 +40,7 @@ Deck.prototype.build = function() {//-- uses card constructor to build new deck
     for (var j = 0; j<value.length; j++){
       var card = new Card(value[j],suit[i]);
       this.inPlay.push(card);
-      // console.log(j);
     }
-    // console.log(i);
   }
 }
 
