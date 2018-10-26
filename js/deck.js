@@ -4,6 +4,7 @@ function Card (value, suit) {
     this.value = value;
     this.suit = suit;
     this.face = 'down';
+    this.src = './img/' + value + '-' + suit + '.png';
   //point value as another property?
 };
 
@@ -27,8 +28,9 @@ Deck.prototype.shuffle = function () {//-- shuffles deck
   this.inPlay = placeholder;
 }
 
-Deck.prototype.dealt() //-- deals cards
-
+Deck.prototype.dealt = function () { //-- deals cards
+  return this.inPlay.pop();
+}
 
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
   var suit = ['diamond', 'clubs', 'hearts', 'spades'];
