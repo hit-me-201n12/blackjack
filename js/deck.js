@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function Card (value, suit) { //-- card object - also has a reference to source file
     this.value = value;
@@ -6,7 +6,7 @@ function Card (value, suit) { //-- card object - also has a reference to source 
     this.face = 'down';
     this.src = './img/' + value + '-' + suit + '.png';
   //point value as another property?
-};
+}
 
 
 //Card objects
@@ -26,11 +26,11 @@ Deck.prototype.shuffle = function () {//-- shuffles deck
   }
   console.log(placeholder);
   this.inPlay = placeholder;
-}
+};
 
-Deck.prototype.dealt = function () { //-- deals cards
+Deck.prototype.deal = function () { //-- deals cards  ############## connor changed to "deal" because the deck deals what the player is dealt
   return this.inPlay.pop();
-}
+};
 
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
   var suit = ['diamond', 'clubs', 'hearts', 'spades'];
@@ -42,9 +42,9 @@ Deck.prototype.build = function() {//-- uses card constructor to build new deck
       this.inPlay.push(card);
     }
   }
-}
+};
 
 // function calls
 
-var testDeck = new Deck()
+var testDeck = new Deck();
 testDeck.build();
