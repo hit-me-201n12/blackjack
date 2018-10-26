@@ -19,9 +19,6 @@ were all mindfull that we work in the weekdays, and we are planning on communica
 
 blackjack game for CodeFellows 201n12
 
-
-
-
 #================================
 user stories
 
