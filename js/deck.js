@@ -1,10 +1,10 @@
 'use strict';
 
-function Card (value, suit) { // card object - also has a reference to source file
-  this.value = value;
-  this.suit = suit;
-  this.face = 'down';
-  this.src = './img/' + value + '-' + suit + '.png';
+function Card (value, suit) { //-- card object - also has a reference to source file
+    this.value = value;
+    this.suit = suit;
+    this.face = 'down';
+    this.src = './img/' + value + '-' + suit + '.png';
   //point value as another property?
 }
 
@@ -12,10 +12,10 @@ function Card (value, suit) { // card object - also has a reference to source fi
 //Card objects
 
 
-function Deck () { // make a deck of 52 cards
-  this.inPlay = [];
-  this.disCard = []; //############### Do we need this?
-}
+function Deck () { //-- make a deck of 52 cards
+    this.inPlay = [];
+    this.disCard = [];
+};
 
 Deck.prototype.shuffle = function () {//-- shuffles deck
   var placeholder = [];
