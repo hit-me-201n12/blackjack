@@ -16,7 +16,16 @@ function Deck () {
     this.disCard = [];
 };
 
-//Deck.prototype.shuffle() -- shuffles deck
+Deck.prototype.shuffle = function () {//-- shuffles deck
+  var placeholder = [];
+  while (this.inPlay.length) {
+    var pick = Math.floor(Math.random(this.inPlay.length+1));
+    this.placeholder.push(this.inPlay.splice(pick,1));
+  }
+  console.log(placeholder);
+  this.inPlay = placeholder;
+}
+
 //Deck.prototype.deal() -- deals cards
 
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
@@ -27,8 +36,8 @@ Deck.prototype.build = function() {//-- uses card constructor to build new deck
     for (var j = 0; j<value.length; j++){
       var card = new Card(value[j],suit[i]);
       this.inPlay.push(card);
-      console.log(j);
+      // console.log(j);
     }
-    console.log(i);
+    // console.log(i);
   }
 }
