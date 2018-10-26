@@ -19,14 +19,16 @@ function Deck () {
 Deck.prototype.shuffle = function () {//-- shuffles deck
   var placeholder = [];
   while (this.inPlay.length) {
-    var pick = Math.floor(Math.random(this.inPlay.length+1));
-    this.placeholder.push(this.inPlay.splice(pick,1));
+    var pick = Math.floor(Math.random()*(this.inPlay.length));
+    placeholder.push(this.inPlay.splice(pick,1));
+    console.log(pick);
   }
   console.log(placeholder);
   this.inPlay = placeholder;
 }
 
-//Deck.prototype.deal() -- deals cards
+Deck.prototype.dealt() //-- deals cards
+
 
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
   var suit = ['diamond', 'clubs', 'hearts', 'spades'];
@@ -41,3 +43,8 @@ Deck.prototype.build = function() {//-- uses card constructor to build new deck
     // console.log(i);
   }
 }
+
+// function calls
+
+var testDeck = new Deck()
+testDeck.build();
