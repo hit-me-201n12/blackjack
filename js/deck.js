@@ -1,9 +1,10 @@
 'use strict'
 
-function Card (value, suit) {
+function Card (value, suit) { // card object - also has a reference to source file
     this.value = value;
     this.suit = suit;
-    this.face = down;
+    this.face = 'down';
+    this.src = './img/' + value + '-' + suit + '.png';
   //point value as another property?
 };
 
@@ -11,21 +12,39 @@ function Card (value, suit) {
 //Card objects
 
 
-function Deck () {
-    inPlay = [];
-    disCard = [];
+function Deck () { // make a deck of 52 cards
+    this.inPlay = [];
+    this.disCard = [];
 };
 
-//Deck.prototype.shuffle() -- shuffles deck
-//Deck.prototype.deal() -- deals cards
+Deck.prototype.shuffle = function () {//-- shuffles deck
+  var placeholder = [];
+  while (this.inPlay.length) {
+    var pick = Math.floor(Math.random()*(this.inPlay.length));
+    placeholder.push(this.inPlay.splice(pick,1));
+    console.log(pick);
+  }
+  console.log(placeholder);
+  this.inPlay = placeholder;
+}
+
+Deck.prototype.dealt = function () { //-- deals cards
+  return this.inPlay.pop();
+}
 
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
-  var suits = ['diamond', 'clubs', 'hearts', 'spades'];
-  var values = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
+  var suit = ['diamond', 'clubs', 'hearts', 'spades'];
+  var value = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
 
-  for (var i = 0; i<suits.length; i++){
-    for (var j = 0; j<values.length; j++){
-      this.inPlay.push(card(j,i));
+  for (var i = 0; i<suit.length; i++){
+    for (var j = 0; j<value.length; j++){
+      var card = new Card(value[j],suit[i]);
+      this.inPlay.push(card);
     }
   }
 }
+
+// function calls
+
+var testDeck = new Deck()
+testDeck.build();
