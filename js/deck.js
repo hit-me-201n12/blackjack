@@ -33,7 +33,7 @@ Deck.prototype.deal = function () { //-- deals cards  ############## connor chan
 };
 
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
-  var suit = ['diamond', 'clubs', 'hearts', 'spades'];
+  var suit = ['diamonds', 'clubs', 'hearts', 'spades'];
   var value = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
 
   for (var i = 0; i<suit.length; i++){
