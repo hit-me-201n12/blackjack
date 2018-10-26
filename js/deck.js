@@ -1,6 +1,6 @@
 'use strict'
 
-function Card (value, suit) { // card object - also has a reference to source file
+function Card (value, suit) { //-- card object - also has a reference to source file
     this.value = value;
     this.suit = suit;
     this.face = 'down';
@@ -12,7 +12,7 @@ function Card (value, suit) { // card object - also has a reference to source fi
 //Card objects
 
 
-function Deck () { // make a deck of 52 cards
+function Deck () { //-- make a deck of 52 cards
     this.inPlay = [];
     this.disCard = [];
 };
