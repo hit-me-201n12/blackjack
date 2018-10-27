@@ -12,6 +12,9 @@
     - [Player](#player)
         - [properties](#player-properties)
         - [methods](#player-methods)
+    -[Hand](#hand)
+        -[properties](#hand-properties)
+        -[methods](#hand-methods)
 - [Functions](#functions)
 - [Files](#files)
 
@@ -62,15 +65,35 @@ The Deck constructor creates a Deck object that can create, store, shuffle, and 
 
 <a id="player"></a>
 ### Player
+
+<a id="player-properties"></a>
 #### Properties
--
--
--
+- **ID:** A string passed into the Player constructor that represents the Player's name.
+- **hand:** A Hand object associated with the Player that holds the Player's Cards.
+- **playing:** A boolean to assist with turn logic that is true if the Player is still taking actions during their turn and is changed to false when the Player's turn is complete.
+- **busted:** A boolean that indicates whether or not the Player has gone bust. 
+- **win:** A boolean that is changed to true if a score of 21 has been reached.
+
+<a id="player-methods"></a>
 #### Methods
--
--
+- **.dealt():** This method calls the .add() method of the Player's Hand object, which in turn adds a Card to the Hand.
+- **.turn():** TBA
 -
 
+<a id="hand"></a>
+### Hand
+
+<a id="hand-properties"></a>
+#### Properties
+- **cards:** An array that stores all of the Cards that have been dealt to the Player.
+- **bust:** A boolean that indicates whether the Player's Hand has gone bust.
+
+<a id="hand-methods"></a>
+#### Methods
+- **.add():** This method adds a Card to the Player's Hand.
+*check back on this one*
+- **.value():** This methods traverses the Cards in the Player's Hand and generates the sum total of their points. 
+*check back on this one*
 
 <a id="functions"></a>
 ## Functions
