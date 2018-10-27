@@ -1,5 +1,5 @@
 'use strict'
-let log = console.log
+//let log = console.log
 window.addEventListener('keypress', (e) => {
   let char = e.char || e.charCode || e.which
   if (char === 32) {
