@@ -57,7 +57,8 @@ code that checks for busted or player choosing to stand
 };
 
 Player.prototype.hit = function () {
-  this.hand.add(card);
+  // this.hand.add(card);
+  this.dealt(testDeck.deal);
 };
 
 Player.prototype.stand = function() {
