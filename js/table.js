@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 let log = console.log
 window.addEventListener('keypress', (e) => {
   let char = e.char || e.charCode || e.which
