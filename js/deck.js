@@ -1,5 +1,10 @@
 'use strict';
 
+// Purpose:
+// Create Cards
+// Create Deck
+// Deal Cards
+
 function Card (value, suit) { //-- card object - also has a reference to source file
     this.value = value;
     this.suit = suit;
