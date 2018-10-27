@@ -12,9 +12,9 @@
     - [Player](#player)
         - [properties](#player-properties)
         - [methods](#player-methods)
-    -[Hand](#hand)
-        -[properties](#hand-properties)
-        -[methods](#hand-methods)
+    - [Hand](#hand)
+        - [properties](#hand-properties)
+        - [methods](#hand-methods)
 - [Functions](#functions)
 - [Files](#files)
 

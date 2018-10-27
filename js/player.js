@@ -6,14 +6,13 @@
 
 
 
-function Player(ID) {//the player object is an object that when created is passed a string for the player name 
-    
+function Player(ID, dealer) {//the player object is an object that when created is passed a string for the player name
   this.ID = ID; //string for player name 
   this.hand = new Hand(); //creates a hand object for the player to use 
   this.playing = false; //boolean, false until the players turn has started, returns to false when the player ends their turn
   this.busted = false; //boolean, determinate of whether that player has busted or not
   this.win = false; //boolean, returns true when 21 is first dealt, or if this.player's score beats the dealer's.score
-    
+  this.dealer = dealer;
 }
 
 // superceded by hit protofunction?
@@ -22,59 +21,59 @@ function Player(ID) {//the player object is an object that when created is passe
 // };
 
 Player.prototype.turn = function (){
-//this method of player is given a choice 
-// action = 
-
-this.playing = true;
-
-
-/* (do while... playing)
-code that checks for busted or player choosing to stand
-*/
-
-// event listener for player's keypresses on their turn
-// to add: score checking 
-  let log = console.log;
-  window.addEventListener('keypress', (e) => {
-    let char = e.char || e.charCode || e.which;
-    if (char === 32) {
-      // function call back playerHit()
-      log('hit me');
-      this.hit;
-    } else if (char === 13) {
-      // function call back playerStand()
-      log('stand');
-      this.stand;
-    }
-  });
-
-//prompt('what would you like to do?(h/s)');
-  /*eventually change this to an event listener/buttons
-        if (action===h){
-            this.dealt(deck.deal);
-        }*/
-
+  //Set player status to playing
+  this.playing = true;
+  if(this.dealer){
+    //dealer logic
+  } else {
+    //Player logic below
+    //Event listener for keystrokes
+    let log = console.log;
+    window.addEventListener('keypress', (e) => {
+      let char = e.char || e.charCode || e.which;
+      if (char === 32) {
+        // function call back playerHit()
+        log('hit me');
+        this.hit();
+        // Check to see if player has busted or blackJack to set 'playing' to false
+        if(this.blackJack){
+          this.playing = false;
+        } else if(this.busted) {
+          this.playing = false;
+        };
+      } else if (char === 13) {
+        // function call back playerStand()
+        log('stand');
+        this.stand();
+      };
+    });
+  }
 };
 
 Player.prototype.hit = function () {
-  // this.hand.add(card);
-  this.dealt(testDeck.deal);
+  this.hand.add(deck.deal());
 };
 
 Player.prototype.stand = function() {
   this.playing = false;
 };
 
-function Hand(cards, value, bust) {
+function Hand() {
   this.cards = []; //an array of all cards in the current hand
   this.bust = false; //a boolean that determines whether the current hand is still in play
+  this.value = 0;
+  this.blackJack = false;
 }
 
 
 Hand.prototype.add = function(card){
   this.cards.push(card);
   this.value+=card.points;
-
+  if(this.value > 21) {
+    this.bust = true;
+  } else if(this.value === 21) {
+    this.blackJack = true;
+  }
 };
 
 Hand.prototype.value = function(){
