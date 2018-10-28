@@ -10,7 +10,8 @@ function Card (value, suit) { //-- card object - also has a reference to source 
     this.suit = suit;
     this.face = 'down';
     this.src = './img/' + value + '-' + suit + '.png';
-  //point value as another property?
+    this.point = points;
+ 
 }
 
 

@@ -1,9 +1,9 @@
 'use strict';
-
+let log = console.log();
 
 // Purpose:
 // Starting Game
-//  Create Players 
+//  Create Players
 //    (take and store player names)
 //    (dealer-player creation)
 //   Calls Deck creation
@@ -13,12 +13,38 @@
 //    Iterates over players
 
 // Global Vars
-var players = [];
+//var players = JSON.parse(localStorage.getItem('players'));    USE THIS WHEN LIVE
+
+var players=[new Player('connor', false), new Player('michael', false), new Player('skyler', true)];
+var currentPlayer=players[0];
+
+
+var eventhandler = function(press) {
+  let key = press.char || press.charCode || press.which;
+  if (key === 32) { //if the user presses space
+    console.log(currentPlayer.name+' hit');
+    currentPlayer.hit();
+    console.log (currentPlayer.hand.score);
+    // Check to see if player has busted or blackJack to set 'playing' to false
+    if(this.blackJack){
+      this.playing = false;
+    } else if(this.busted) {
+      this.playing = false;
+    }
+  } else if (key === 13) {// if user presses enter
+    // function call back playerStand()
+    console.log('stand');
+    currentPlayer.stay();
+  }
+};
+
+
+
+
 // Dealer logic - input as first index in player array? (but also have logic that tracks dealer's score on their own, to be able to refer to it)
 
-var userName; //= prompt('What is your name?');
 //var dealer = new Player('Dealer', true);
-var player1 = new Player(userName, false);
+var player1 = new Player('userName', false);
 var player2 = new Player('Bill', false);
 // players.push(dealer);
 players.push(player1);
@@ -31,7 +57,7 @@ var deck;
 // gameplay
 var gamePlay = function() {
   //Write something to clear/reset all players objects (hand, and booleans)
-  
+
   //Makes sure the deck is reset
   deck = new Deck();
   deck.build();
@@ -48,8 +74,10 @@ var gamePlay = function() {
   }
 
   // taking turns
-  for (var k in players){
-    players[k].turn();
+  for (var k = 0; k<players.length; k++){
+    players[k].hit();
+    players[k].stay();
+    console.log(players[k]);
   }
 
   // checking scores
@@ -71,7 +99,7 @@ var gamePlay = function() {
 
 var testGame = function() {
   gamePlay();
-}
+};
 
 // function calls
 testGame();
