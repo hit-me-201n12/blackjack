@@ -1,11 +1,16 @@
 'use strict';
 
-function Card (value, suit) { //-- card object - also has a reference to source file
+// Purpose:
+// Create Cards
+// Create Deck
+// Deal Cards
+
+function Card (value, suit, points) { //-- card object - also has a reference to source file
     this.value = value;
     this.suit = suit;
     this.face = 'down';
     this.src = './img/' + value + '-' + suit + '.png';
-  //point value as another property?
+    this.point = points;
 }
 
 
@@ -22,9 +27,7 @@ Deck.prototype.shuffle = function () {//-- shuffles deck
   while (this.inPlay.length) {
     var pick = Math.floor(Math.random()*(this.inPlay.length));
     placeholder.push(this.inPlay.splice(pick,1));
-    console.log(pick);
   }
-  console.log(placeholder);
   this.inPlay = placeholder;
 };
 
@@ -35,10 +38,11 @@ Deck.prototype.deal = function () { //-- deals cards  ############## connor chan
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
   var suit = ['diamonds', 'clubs', 'hearts', 'spades'];
   var value = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
+  var points = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10 , 10, 11];
 
   for (var i = 0; i<suit.length; i++){
     for (var j = 0; j<value.length; j++){
-      var card = new Card(value[j],suit[i]);
+      var card = new Card(value[j],suit[i], points[j]);
       this.inPlay.push(card);
     }
   }
