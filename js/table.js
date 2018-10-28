@@ -16,7 +16,7 @@
 var players = [];
 // Dealer logic - input as first index in player array? (but also have logic that tracks dealer's score on their own, to be able to refer to it)
 
-var userName = prompt('What is your name?');
+var userName; //= prompt('What is your name?');
 //var dealer = new Player('Dealer', true);
 var player1 = new Player(userName, false);
 var player2 = new Player('Bill', false);
