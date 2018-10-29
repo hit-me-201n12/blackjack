@@ -17,52 +17,40 @@ let log = console.log();
 
 var players = [new Player('connor', false), new Player('michael', false), new Player('skyler', true)];
 var current = -1;
-
-
-var eventhandler = function(press) {
-  //if (players[current]){
-  if (players[current].playing){
-    let key = press.char || press.charCode || press.which;
-    if (key === 32) { //if the user presses space
-      console.log(players[current].ID+' hit');
-      players[current].hit();
-      console.log (players[current].hand.score);
-      // Check to see if player has busted or blackJack to set 'playing' to false
-      if(this.blackJack){
-        this.playing = false;
-      } else if(this.busted) {
-        this.playing = false;
-      }
-    } else if (key === 13) {// if user presses enter
-      // function call back playerStand()
-      console.log('stand');
-      players[current].stay();
-    }
-  }
-  if (!players[current].playing){
-    current++;
-  }
-  //}
-};
-<<<<<<< HEAD
-=======
-
-
-
-
-// Dealer logic - input as first index in player array? (but also have logic that tracks dealer's score on their own, to be able to refer to it)
-
-//var dealer = new Player('Dealer', true);
-var player1 = new Player('userName', false);
-var player2 = new Player('Bill', false);
-// players.push(dealer);
-players.push(player1);
-players.push(player2);
->>>>>>> da7900fd91eab41cd02c24d38b1ace6095495d79
-// dealer creation?
-
+//create a dealer and push him to position 0 in players
+players.push = new Player('Dealer', true);
 //Create deck for the game
 var deck;
+
+var eventhandler = function(press) { //this is our event handler for hitting and staying.
+  if (!players[current].dealer){//condition, only use keyboard for hit and stay if not the dealer
+    if (players[current].playing){//condition, only hit or stay if the current player is still playing
+      let key = press.char || press.charCode || press.which;
+      if (key === 32) { //if the user presses space:
+        console.log(players[current].ID+' hit');
+        players[current].hit();//player is dealt a card
+        console.log (players[current].hand.score);
+        // Check to see if player has busted or blackJack to set 'playing' to false
+        if(players[currrent].blackJack){
+          players[currrent].playing = false;
+        } else if(players[currrent].busted) {//if the player busts, they are also no longer playing
+          players[currrent].playing = false;
+        }
+      } else if (key === 13) {// if user presses enter
+      // function call back playerStand()
+        console.log('stand');
+        players[current].stay();
+      }
+    }
+    if (!players[current].playing){
+      current++;
+    }
+  }
+};
+
+
+
+
 
 // gameplay
 var gamePlay = function() {
@@ -73,27 +61,21 @@ var gamePlay = function() {
   deck.build();
   deck.shuffle();
   // deal the cards
-  for(var i in players) {
-    players[i].hit();
-  }
   for(var j = players.length-1; j > -1; j--){
     players[j].hit();
   }
-
+  for(var i in players) {
+    players[i].hit();
+  }
   // taking turns
   current++;
   console.log(players[current].ID+'s turn');
-
-
-  // checking scores
+  // check scores
   if (!players[players.length-1].playing){
-    for (var j in players){
-      var hiScore = 0;
-      var winner;
+    for (var j = 0; j++; j<players.length-1){
       if (!players[j].busted) {
-        if (players[j].hand.value>hiScore){
-          hiScore = players[j].hand.value;
-          winner = players[j].ID;
+        if (players[j].hand.score>players[players.length-1].hand.score){
+          console.log(players[j]+' won their hand!');
         } else if (players[j].hand.value === hiScore) {
         // generate a 'push' round result
         }

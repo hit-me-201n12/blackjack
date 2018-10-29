@@ -12,7 +12,7 @@ function Player(ID, dealer) {//the player object is an object that when created 
   this.playing = true; //boolean, false until the players turn has started, returns to false when the player ends their turn
   this.busted = false; //boolean, determinate of whether that player has busted or not
   this.blackJack = false; //boolean, returns true when 21 is first dealt, or if this.player's score beats the dealer's.score
-  this.dealer = dealer;
+  this.dealer = dealer; //boolean, true for one dealer character in the game.
 }
 
 Player.prototype.hit = function () {
@@ -34,7 +34,7 @@ Player.prototype.stay = function() {
 function Hand() {
   this.cards = []; //an array of all cards in the current hand
   this.bust = false; //a boolean that determines whether the current hand is still in play
-  this.points = 0;
+  this.score = 0;
   this.blackJack = false;
   this.ace = 0;
 }
@@ -45,16 +45,16 @@ Hand.prototype.add = function(card){
   if (card[0].value==='Ace'){ //ace logic for scored hand
     this.ace++;
   }
-  this.points+=card[0].points;
-  console.log(this.points);
-  if(this.points > 21) {
+  this.score+=card[0].points;
+  console.log(this.score);
+  if(this.score > 21) {
     if (this.ace>0){
-      this.points-=10;
+      this.score-=10;
       this.ace--;
     }
     this.bust = true;
     console.log('BUST!');
-  } else if(this.points === 21) {
+  } else if(this.score === 21) {
     this.blackJack = true;
     console.log('BLACKJACK!');
   }

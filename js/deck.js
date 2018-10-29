@@ -29,9 +29,7 @@ Deck.prototype.shuffle = function () {//-- shuffles deck
   while (this.inPlay.length) {
     var pick = Math.floor(Math.random()*(this.inPlay.length));
     placeholder.push(this.inPlay.splice(pick,1));
-    console.log(pick);
   }
-  console.log(placeholder);
   this.inPlay = placeholder;
 };
 
@@ -42,16 +40,14 @@ Deck.prototype.deal = function () { //-- deals cards  ############## connor chan
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
   var suit = ['diamonds', 'clubs', 'hearts', 'spades'];
   var value = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
+  var points = [2,3,4,5,6,7,8,9,10,10,10,10,11]
 
   for (var i = 0; i<suit.length; i++){
     for (var j = 0; j<value.length; j++){
-      var card = new Card(value[j],suit[i]);
+      var card = new Card(value[j],suit[i],points[j]);
       this.inPlay.push(card);
     }
   }
 };
 
 // function calls
-
-var testDeck = new Deck();
-testDeck.build();
