@@ -84,29 +84,41 @@ var nextPlayer = function(){
   current++;
   console.log(players[current].ID+'s turn, current score: '+players[current].hand.score);
   //console.log(players[current]+'s turn, score: '+players[current].hand.score);
-  if(players[current].dealer){
+  if(players[current].dealer){//if the current player is the dealer
     window.removeEventListener('keypress', window);
-    while(players[current].playing){
-      players[current].dealerTurn();
+    var dPlay=true;
+    while(dPlay===true){
+      if(players[current].hand.score<17){
+        players[current].hit();
+      }else if (players[current].hand.score === 17 && players[current].hand.aces>0){
+        players[current].hit;
+      }else if(players[current].hand.score===17){
+        console.log('dealerStay');
+        players[current].stay;
+        dPlay=false;
+        break;
+      }else{
+        console.log('dealerStay');
+        players[current].stay;
+        dPlay=false;
+        break;
+      }
     }
-    console.log('callcheckscores');
+    current--;
     checkScores();
-  }
-  if (current<players.length-1){
+  }else if (current<players.length-1){
     window.addEventListener('keypress', eventhandler);
     if(!players[current].playing && players[current].hand.blackJack){
       console.log(players[current].ID+' scored blackjack off of the draw!');
       current++;
+    } else {
+      current=-1;
     }
-    console.log(players[current].ID+'s turn, current score: '+players[current].hand.score);
-  }
-  else{
-    current=-1;
   }
 };
 
 var checkScores = function(){
-  console.log('checking scores');
+  console.log(current);
   if (!players[players.length-1].playing){
     var dealerbust= (players[players.length-1].busted);
     var dealerScore = players[players.length-1].hand.score;
@@ -119,9 +131,10 @@ var checkScores = function(){
       }else{
         players[current].wins--;
       }
+    }else{
+      console.log(players[current]+' lost their hand.');
     }
-    current--;
-    if (players[current]>-1){
+    if (current>-1){
       checkScores();
     }
   }
@@ -135,4 +148,3 @@ var testGame = function() {
 
 // function calls
 testGame();
-// game.Start?

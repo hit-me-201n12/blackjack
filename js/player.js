@@ -44,18 +44,18 @@ Player.prototype.newGame = function(){
   this.hand=new Hand;
 };
 
-Player.prototype.dealerTurn = function(){
-  if(this.hand.score<17){
-    this.hit();
-  }else if (this.hand.score === 17 && this.hand.aces>0){
-    this.hit;
-  }else if(this.hand.score===17){
-    this.stay;
-  }
-  else{
-    this.stay;
-  }
-};
+// Player.prototype.dealerTurn = function(){
+//   if(this.hand.score<17){
+//     this.hit();
+//   }else if (this.hand.score === 17 && this.hand.aces>0){
+//     this.hit;
+//   }else if(this.hand.score===17){
+//     this.stay;
+//   }
+//   else{
+//     this.stay;
+//   }
+// };
 
 Player.prototype.check = function(){
   var x='';
