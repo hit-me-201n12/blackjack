@@ -11,6 +11,7 @@ function Card (value, suit, points) { //-- card object - also has a reference to
   this.face = 'down';
   this.src = './img/' + value + '-' + suit + '.png';
   this.points = points;
+  this.name = value+' of '+suit;
 }
 Card.prototype.points = function(){
   return(this.points);

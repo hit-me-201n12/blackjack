@@ -15,37 +15,35 @@ let log = console.log();
 // Global Vars
 //var players = JSON.parse(localStorage.getItem('players'));    USE THIS WHEN LIVE
 
-var players = [new Player('connor', false), new Player('michael', false), new Player('skyler', true)];
+var players = [new Player('connor', false), new Player('michael', false), new Player('skyler', false)];
 var current = -1;
 //create a dealer and push him to position 0 in players
-players.push = new Player('Dealer', true);
+players.push(new Player('Dealer', true));
 //Create deck for the game
 var deck;
 
 var eventhandler = function(press) { //this is our event handler for hitting and staying.
-  if (!players[current].dealer){//condition, only use keyboard for hit and stay if not the dealer
+  if (!players[current].dealer===true){//condition, only use keyboard for hit and stay if not the dealer
     if (players[current].playing){//condition, only hit or stay if the current player is still playing
       let key = press.char || press.charCode || press.which;
       if (key === 32) { //if the user presses space:
-        console.log(players[current].ID+' hit');
         players[current].hit();//player is dealt a card
-        console.log (players[current].hand.score);
         // Check to see if player has busted or blackJack to set 'playing' to false
-        if(players[currrent].blackJack){
-          players[currrent].playing = false;
-        } else if(players[currrent].busted) {//if the player busts, they are also no longer playing
-          players[currrent].playing = false;
+        if(players[current].blackJack){
+          players[current].playing = false;
+          nextPlayer();
+        } else if(players[current].busted) {//if the player busts, they are also no longer playing
+          players[current].playing = false;
+          nextPlayer();
         }
       } else if (key === 13) {// if user presses enter
       // function call back playerStand()
-        console.log('stand');
         players[current].stay();
+        nextPlayer();
       }
     }
-    if (!players[current].playing){
-      current++;
-    }
   }
+
 };
 
 
@@ -55,38 +53,63 @@ var eventhandler = function(press) { //this is our event handler for hitting and
 // gameplay
 var gamePlay = function() {
   //Write something to clear/reset all players objects (hand, and booleans)
-
-  //Makes sure the deck is reset
+  newRound();
+  // deal the cards
+  dealcards();
+  // taking turns
+  nextPlayer();
+  // check scores
+  checkScores();
+  if (!players[players.length-1].playing){
+    var dealerHand=players[players.length-1].hand.score;
+    for (var j = 0; j++; j<players.length-1){
+      if (!players[j].busted) {
+        if (players[j].hand.score>dealerHand){
+          console.log(players[j]+' won their hand!');
+          players[j].wins++;
+        } else if (players[j].hand.value === dealerHand) {
+          players[j].wins+=0;
+        }else{
+          players[j].wins--;
+        }
+      }
+    }
+  }
+};
+var newRound = function (){
   deck = new Deck();
   deck.build();
   deck.shuffle();
-  // deal the cards
+  for (var i in players){
+    players[i].newGame;
+  }
+}
+var dealcards = function(){
   for(var j = players.length-1; j > -1; j--){
     players[j].hit();
   }
   for(var i in players) {
     players[i].hit();
   }
-  // taking turns
-  current++;
-  console.log(players[current].ID+'s turn');
-  // check scores
-  if (!players[players.length-1].playing){
-    for (var j = 0; j++; j<players.length-1){
-      if (!players[j].busted) {
-        if (players[j].hand.score>players[players.length-1].hand.score){
-          console.log(players[j]+' won their hand!');
-        } else if (players[j].hand.value === hiScore) {
-        // generate a 'push' round result
-        }
-      }
-    }
-    // we'll need to check the winner's score against the dealer's, declare winner if not dealer
-    console.log(winner);
-  }
 };
 
+var nextPlayer = function(){
+  current++;
+  if (current<players.length){
+    if(!players[current].playing && players[current].hand.blackJack){
+      console.log(players[current].ID+' scored blackjack off of the draw!');
+      current++;
+    }
+    console.log(players[current].ID+'s turn, current score: '+players[current].hand.score);
+  }
+  else{
+    current=-1;
+  }
+}
+
+
 var testGame = function() {
+  console.log(players);
   gamePlay();
 };
 window.addEventListener('keypress', eventhandler);
