@@ -56,26 +56,10 @@ var gamePlay = function() {
   newRound();
   // deal the cards
   dealcards();
-  // taking turns
+  // taking turns checking scores
   nextPlayer();
-  // check scores
-  checkScores();
-  if (!players[players.length-1].playing){
-    var dealerHand=players[players.length-1].hand.score;
-    for (var j = 0; j++; j<players.length-1){
-      if (!players[j].busted) {
-        if (players[j].hand.score>dealerHand){
-          console.log(players[j]+' won their hand!');
-          players[j].wins++;
-        } else if (players[j].hand.value === dealerHand) {
-          players[j].wins+=0;
-        }else{
-          players[j].wins--;
-        }
-      }
-    }
-  }
 };
+
 var newRound = function (){
   deck = new Deck();
   deck.build();
@@ -83,19 +67,33 @@ var newRound = function (){
   for (var i in players){
     players[i].newGame;
   }
-}
+};
+
 var dealcards = function(){
   for(var j = players.length-1; j > -1; j--){
     players[j].hit();
+    console.log(players[j]);
   }
   for(var i in players) {
     players[i].hit();
+    console.log(players[i]);
   }
 };
 
 var nextPlayer = function(){
   current++;
-  if (current<players.length){
+  console.log(players[current].ID+'s turn, current score: '+players[current].hand.score);
+  //console.log(players[current]+'s turn, score: '+players[current].hand.score);
+  if(players[current].dealer){
+    window.removeEventListener('keypress', window);
+    while(players[current].playing){
+      players[current].dealerTurn();
+    }
+    console.log('callcheckscores');
+    checkScores();
+  }
+  if (current<players.length-1){
+    window.addEventListener('keypress', eventhandler);
     if(!players[current].playing && players[current].hand.blackJack){
       console.log(players[current].ID+' scored blackjack off of the draw!');
       current++;
@@ -105,14 +103,36 @@ var nextPlayer = function(){
   else{
     current=-1;
   }
-}
+};
+
+var checkScores = function(){
+  console.log('checking scores');
+  if (!players[players.length-1].playing){
+    var dealerbust= (players[players.length-1].busted);
+    var dealerScore = players[players.length-1].hand.score;
+    if (!players[current].bust){
+      if (players[current].hand.score>dealerScore||dealerbust){
+        players[current].wins++;
+        console.log(players[current]+' won their hand.');
+      }else if (players[current].hand.score===dealerScore){
+        players[current].wins+=0;
+      }else{
+        players[current].wins--;
+      }
+    }
+    current--;
+    if (players[current]>-1){
+      checkScores();
+    }
+  }
+};
 
 
 var testGame = function() {
   console.log(players);
   gamePlay();
 };
-window.addEventListener('keypress', eventhandler);
+
 // function calls
 testGame();
 // game.Start?
