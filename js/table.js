@@ -44,6 +44,21 @@ var eventhandler = function(press) {
   }
   //}
 };
+<<<<<<< HEAD
+=======
+
+
+
+
+// Dealer logic - input as first index in player array? (but also have logic that tracks dealer's score on their own, to be able to refer to it)
+
+//var dealer = new Player('Dealer', true);
+var player1 = new Player('userName', false);
+var player2 = new Player('Bill', false);
+// players.push(dealer);
+players.push(player1);
+players.push(player2);
+>>>>>>> da7900fd91eab41cd02c24d38b1ace6095495d79
 // dealer creation?
 
 //Create deck for the game
