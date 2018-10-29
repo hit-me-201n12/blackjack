@@ -5,23 +5,24 @@
 // Create Deck
 // Deal Cards
 
-function Card (value, suit) { //-- card object - also has a reference to source file
-    this.value = value;
-    this.suit = suit;
-    this.face = 'down';
-    this.src = './img/' + value + '-' + suit + '.png';
-    this.point = points;
- 
+function Card (value, suit, points) { //-- card object - also has a reference to source file
+  this.value = value;
+  this.suit = suit;
+  this.face = 'down';
+  this.src = './img/' + value + '-' + suit + '.png';
+  this.points = points;
 }
-
+Card.prototype.points = function(){
+  return(this.points);
+};
 
 //Card objects
 
 
 function Deck () { //-- make a deck of 52 cards
   this.inPlay = [];
-  this.disCard = [];
-};
+}
+
 
 Deck.prototype.shuffle = function () {//-- shuffles deck
   var placeholder = [];
