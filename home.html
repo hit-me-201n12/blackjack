@@ -10,11 +10,25 @@
     <h1>Hit-Me! Blackjack</h1>
     <form id="newGameForm">
         <!-- integrate first question to ask how many players, then show that many fields to enter names -->
-        <!--<legend>How many players?</legend>
-        <label for="numPlayers" type="number"></label>-->
-        <label for="ID">What is your name?</label><input name="ID" type="text" />
+
+            <p>
+               <label>How many players am I dealing in?</label>
+               <select id ="numPlayers">
+                 <!-- <option value = "0">zero</option>
+                STRETCH - make this an option to activate a computer-controlled game -->
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+                 <option value="6">6</option>
+                </select>
+                <button type="submit">Buy in!</button>
+            </p>
+         <!-- </fieldset> -->
+        <!-- <input name="ID" type="text" /> -->
     </form>
-    <!-- <button type="submit">Buy in!</button> -->
+    <form id="emForm"></form>
     <div><button type="button" onclick="window.location.href = 'aboutUs.html';">About Page</button>
     </div>
 <script src="./js/home.js"></script>
