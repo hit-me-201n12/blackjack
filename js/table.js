@@ -22,6 +22,13 @@ players.push(new Player('Dealer', true));
 //Create deck for the game
 var deck;
 
+var setOrder = function(){
+  for (var i=0 ; i<players.length-1 ; i++){
+    players[i].order=i+1;
+  }
+  players[players.length-1].order=0;
+};
+
 var eventhandler = function(press) { //this is our event handler for hitting and staying.
   
   console.log(current);
@@ -76,6 +83,7 @@ var newRound = function (){
   for (var i in players){
     players[i].newGame;
   }
+  setOrder();
 };
 
 var dealcards = function(){
@@ -89,8 +97,10 @@ var dealcards = function(){
 
 var nextPlayer = function(){
   current++;
-  console.log(current);
-  console.log(players[current].ID+'s turn, current score: '+players[current].hand.score);
+  playerOrder(1);
+
+  console.log();
+  console.log(players[current].ID+'s turn, current score: '+players[current].hand.score+' order '+players[current].order);
   //console.log(players[current]+'s turn, score: '+players[current].hand.score);
 
 
@@ -145,6 +155,7 @@ var dealerTurn = function(){
 
 var checkScores = function(){
   current--;
+  playerOrder(-1);
   if (current>-1){
     if (!players[players.length-1].playing){
       var dealerbust= (players[players.length-1].busted);
@@ -158,6 +169,7 @@ var checkScores = function(){
           console.log(players[current].ID+' washed.');
         }else{
           players[current].wins--;
+          console.log(players[current].ID+' lost their hand');
         }
       }else{
         console.log(players[current].ID+' lost their hand.');
@@ -169,11 +181,31 @@ var checkScores = function(){
   }
 };
 
+var playerOrder = function(direction){
+  if (direction===1){
+    for(var i = 0; i<players.length-1; i++) {
+      if (players[i].order===1){
+        players[i].order===players.length;
+      }else{
+        players[i].order--;
+      }
+    }
+  }
+  if (direction===-1){
+    for(var i = 0; i<players.length-1; i++) {
+      if (players[i].order===players.length){
+        players[i].order===1;
+      }else{
+        players[i].order++;
+      }
+    }
+  }
+}
 
 var testGame = function() {
   console.log(players);
   gamePlay();
-  
+
 };
 
 // function calls
