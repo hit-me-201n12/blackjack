@@ -6,13 +6,22 @@
 // Deal Cards
 
 function Card (value, suit, points) { //-- card object - also has a reference to source file
+  // Gameplay-related properties
   this.value = value;
   this.suit = suit;
   this.face = 'down';
   this.src = './img/' + value + '-' + suit + '.png';
   this.points = points;
   this.name = value+' of '+suit;
+  // Canvas-related properties
+  this.imgObj = new Image();
+  this.imgObj.src = this.src;
+  this.currentX = 0;
+  this.currentY = 0;
+  this.destinationX = 0;
+  this.destinationY = 0;
 }
+
 Card.prototype.points = function(){
   return(this.points);
 };
