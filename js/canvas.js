@@ -33,25 +33,17 @@ var setTable = function() {
 };
 
 var animateCard = function() {
-  // setTable clears canvas and draws default table
+  // Draw table's save state
   setTable();
-  // draw the card
-  var img = new Image();
-  img.src = dealt.imgObj.src;
 
-  c.drawImage(img, dealt.x, dealt.y);
+  // Draw the dynamic/moving card
+    //Reference the player's new card
+    //Draw its currentX and currentY
+
+  // Increment the x and y properties of the Player's card until it reaches its destination
   
-  // Increment
-  if (dealt.x < destinationX){
-    dealt.x += 1;
-  }
-  if (dealt.y < destinationY){
-    dealt.y += 1;
-  }
-  // Repeat
-  if(dealt.x < destinationX || dealt.y < destinationY) {
-    window.requestAnimationFrame(animateCard);
-  }
+  // Repeat by calling the window.requestAnimationFrame(animateCard) until the current and desination coordinates are equal
+  
 };
 
 
