@@ -192,7 +192,7 @@ var playerOrder = function(direction){
     }
   }
   if (direction===-1){
-    for(var i = 0; i<players.length-1; i++) {
+    for(var i=0; i<players.length-1; i++) {
       if (players[i].order===players.length){
         players[i].order===1;
       }else{
@@ -200,7 +200,8 @@ var playerOrder = function(direction){
       }
     }
   }
-}
+  updateTable();
+};
 
 var testGame = function() {
   console.log(players);

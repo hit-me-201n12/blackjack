@@ -47,7 +47,7 @@ var setTable = function(update) {
 };
 
 // Pass a Player and a card index into this function to calculate its destinationX and destinationY
-var navigate = function(player, cardIndex, update) {
+var locate = function(player, cardIndex, update) {
   var player = player;
   var position = player.position;
   var index = cardIndex;
@@ -91,3 +91,13 @@ var animateCard = function(thisPlayer) {
   // Repeat by calling the window.requestAnimationFrame(animateCard) until thisPlayer's last card's current and desination coordinates are equal
 
 };
+
+var updateTable = function(){
+  for(var i = 0 ; i < players.length ; i++){
+    for(var j = 0 ; j < players[i].hand.cards.length ; j++){
+      locate(players[i], j, true);
+    }
+  }
+  setTable(true);
+};
+
