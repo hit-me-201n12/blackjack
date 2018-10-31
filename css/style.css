@@ -23,20 +23,21 @@
 	display: block;
 }
 /* POP UP CSS */
-.popUpRules {
+#popUpRules {
     float: left;
 	margin-top: 10px;
 	margin-left: 30px;
 	padding: 18px;
     position: relative;
 	cursor: pointer;
-	border: 5px solid black;
+	border: 5px solid #00ff00;
+	color: #00ff00;
     user-select: none;
 	font-family: monospace, sans-serif;
 }
 
 /* The actual popup */
-.popUpRules .rulesText {
+#popUpRules .rulesText {
 	visibility: hidden; 
     z-index: 1; 
 	background-color: rgba(1,4,4,0.7);
@@ -52,7 +53,7 @@
 }
 
 /* Toggle this class - hide and show the popup with visibility key */
-.popUpRules .appear {
+#popUpRules .appear {
     visibility: visible;
 	animation: fadeIn 1s;
 	box-shadow: 10px 10px rgba(5,5,5,0.5);

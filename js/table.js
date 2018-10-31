@@ -145,9 +145,12 @@ var testGame = function() {
   gamePlay();
 };
 // pop up function
-var showRules = function () {
-  var popup = document.getElementById('popUp') // select the HTML div box & assign to 'popup'
-  popup.classList.toggle('appear') // call classList.toggle DOM method on popup element. This DOM method creates a class with the name of the string value passed as an argument. In the CSS, a selector named .popUpRules .appear exists already. When we create this class and toggle it on popup, it activates the CSS block that styles the popup. One of the properties is visibility: visible. So showRules() takes the element in its existing state of visibility: hidden to the new state of visibility: visible. With a z-index, it appears on top of other elements.
-}
+var popUpEl = document.getElementById('popUpRules')
+popUpEl.addEventListener('click', (e) => {
+  var popup = document.getElementById('popUp')
+  popup.classList.toggle('appear')
+})
+// call classList.toggle DOM method on popup element. This DOM method creates a class with the name of the string value passed as an argument. In the CSS, a selector named #popUpRules .appear exists already. By creating the class 'appear', it activates the CSS block that styles the .appear class. One of the properties is visibility: visible. This event handler takes the element in its existing state of visibility: hidden to the new state of visibility: visible. With a z-index, it appears on top of other elements.
+
 // function calls
 testGame();
