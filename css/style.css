@@ -22,3 +22,11 @@
 .playingCard {
 	display: block;
 }
+
+canvas {
+	background-color: rgb(69, 126, 69);
+}
+  
+button {
+	display: block;
+}

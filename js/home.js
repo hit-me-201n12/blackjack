@@ -29,28 +29,28 @@ var handleNewGame = function(startEvent) {
   startEvent.stopPropagation();
   var numPlayers = startEvent.target.numPlayers.value;
   console.log(numPlayers);
-	
+
   for (var i = 0; i < numPlayers; i++) {
-		// use DOM manipulation to print out numPlayer number of fields to input names (separate form for player names?)
-		//make new input tags for however many i
-		var nameEl = document.createElement('input');
-		newEmForm.appendChild(nameEl);
-		nameEl.setAttribute('name','player'+(i+1));
-		nameEl.setAttribute('type','text');
-		// console.log(startEvent.target['player1'].value);
-		// var playerName = startEvent.target['player'+(i+1)].value;
-		// players.push(new Player(playerName));
-	}
-	var buttonEl = document.createElement('button');
-	buttonEl.setAttribute('type','submit');
-	newEmForm.appendChild(buttonEl);
-	// console.log(players);
-	// save();
+    // use DOM manipulation to print out numPlayer number of fields to input names (separate form for player names?)
+    //make new input tags for however many i
+    var nameEl = document.createElement('input');
+    newEmForm.appendChild(nameEl);
+    nameEl.setAttribute('name','player'+(i+1));
+    nameEl.setAttribute('type','text');
+    // console.log(startEvent.target['player1'].value);
+    // var playerName = startEvent.target['player'+(i+1)].value;
+    // players.push(new Player(playerName));
+  }
+  var buttonEl = document.createElement('button');
+  buttonEl.setAttribute('type','submit');
+  newEmForm.appendChild(buttonEl);
+  // console.log(players);
+  // save();
 };
 
 var handleNumPlayers = function(numEvent) {
-numEvent.preventDefault();
-numEvent.stopPropagation();
+  numEvent.preventDefault();
+  numEvent.stopPropagation();
 
 //   window.open('game.html', '_self');
 };
