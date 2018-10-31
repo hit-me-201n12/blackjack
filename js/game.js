@@ -67,7 +67,7 @@ function Player(ID, dealer) {
   this.blackJack = false; //boolean, returns true when 21 is first dealt, or if this.player's score beats the dealer's.score
   this.dealer = dealer; //boolean, true for one dealer character in the game.
   this.wins = 0;
-  if(this.dealer){
+  if(dealer){
     this.order = 0;
   } else {
     this.order = players.length +1;
