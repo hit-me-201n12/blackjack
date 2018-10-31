@@ -57,22 +57,42 @@ var locate = function(player, cardIndex, update) {
   var height;
   var width;
 
-  if(position < 3) {
-    destinationY = (position + 1) * 240;
-    destinationX = (index + 1) * 75;
-    height = 120;
-    width = 75;
+  if(update){
+    if(position < 3) {
+      destinationY = (position + 1) * 240;
+      destinationX = (index + 1) * 75;
+      height = 120;
+      width = 75;
+    } else {
+      destinationY = 30 + ((position - 2) * 90);
+      destinationX = 600 - (index * 37.5);
+      height = 60;
+      width = 37.5;
+    }
+  
+    player.hand.cards[index][0].destinationX = destinationX;
+    player.hand.cards[index][0].destinationY = destinationY;
+    player.hand.cards[index][0].height = height;
+    player.hand.cards[index][0].width = width;
   } else {
-    destinationY = 30 + ((position - 2) * 90);
-    destinationX = 600 - (index * 37.5);
-    height = 60;
-    width = 37.5;
-  }
 
-  player.hand.cards[index][0].destinationX = destinationX;
-  player.hand.cards[index][0].destinationY = destinationY;
-  player.hand.cards[index][0].height = height;
-  player.hand.cards[index][0].width = width;
+    if(position < 3) {
+      destinationY = (position + 1) * 240;
+      destinationX = (index + 1) * 75;
+      height = 120;
+      width = 75;
+    } else {
+      destinationY = 30 + ((position - 2) * 90);
+      destinationX = 600 - (index * 37.5);
+      height = 60;
+      width = 37.5;
+    }
+  
+    player.hand.cards[index][0].destinationX = destinationX;
+    player.hand.cards[index][0].destinationY = destinationY;
+    player.hand.cards[index][0].height = height;
+    player.hand.cards[index][0].width = width;
+  }
 }
 
 // Pass Players into this function so it can access their entire hand
