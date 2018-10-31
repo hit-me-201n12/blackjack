@@ -200,7 +200,8 @@ var playerOrder = function(direction){
       }
     }
   }
-}
+  updateTable();
+};
 
 var testGame = function() {
   console.log(players);

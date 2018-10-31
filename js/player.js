@@ -21,6 +21,7 @@ function Player(ID, dealer) {//the player object is an object that when created 
 Player.prototype.hit = function () {
   console.log(this.ID+' hit');
   this.hand.add(deck.deal());
+  animateCard(this);
   this.check();
   if (this.hand.bust){
     this.playing = false;
@@ -77,7 +78,7 @@ function Hand() {
 
 Hand.prototype.add = function(card){
   this.cards.push(card);
-  if (card[0].value==='Ace'){ //ace logic for scored hand
+  if (card[0].value==='ace'){ //ace logic for scored hand
     this.ace++;
   }
   this.score+=card[0].points;
