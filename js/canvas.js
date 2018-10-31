@@ -46,11 +46,36 @@ var setTable = function(update) {
   }
 };
 
-var locating = function(thisPlayer) {
+// Pass a Player and a card index into this function to calculate its destinationX and destinationY
+var navigate = function(player, cardIndex, update) {
+  var player = player;
+  var position = player.position;
+  var index = cardIndex;
+  var update = update; // This determines if we're updating the destination or current coordinates.
+  var y;
+  var x;
+  var height;
+  var width;
 
+  if(position < 3) {
+    destinationY = (position + 1) * 240;
+    destinationX = (index + 1) * 75;
+    height = 120;
+    width = 75;
+  } else {
+    destinationY = 30 + ((position - 2) * 90);
+    destinationX = 600 - (index * 37.5);
+    height = 60;
+    width = 37.5;
+  }
+
+  player.hand.cards[index][0].destinationX = destinationX;
+  player.hand.cards[index][0].destinationY = destinationY;
+  player.hand.cards[index][0].height = height;
+  player.hand.cards[index][0].width = width;
 }
 
-// Pass player's into this function so it can access their entire hand
+// Pass Players into this function so it can access their entire hand
 var animateCard = function(thisPlayer) {
   // Call the locating() function to update thisPlayer's last card's destinationX and destinationY
   
@@ -58,7 +83,9 @@ var animateCard = function(thisPlayer) {
   setTable();
 
   // Draw thisPlayer's cards which includes the new card
-
+  for (var i in thisPlayer.hand.cards) {
+    c.drawImage(thisPlayer.hand.cards[i].imgObj, )
+  }
   // Increment the currentX and currentY properties of thisPlayer's last card
 
   // Repeat by calling the window.requestAnimationFrame(animateCard) until thisPlayer's last card's current and desination coordinates are equal
