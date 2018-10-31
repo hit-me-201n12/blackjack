@@ -14,6 +14,7 @@ function Player(ID, dealer) {//the player object is an object that when created 
   this.blackJack = false; //boolean, returns true when 21 is first dealt, or if this.player's score beats the dealer's.score
   this.dealer = dealer; //boolean, true for one dealer character in the game.
   this.wins = 0;
+  this.order = 0;
 
 }
 
