@@ -13,9 +13,9 @@ let log = console.log();
 //    Iterates over players
 
 // Global Vars
-//var players = JSON.parse(localStorage.getItem('players'));    USE THIS WHEN LIVE
+var players = JSON.parse(localStorage.getItem('players')); // USE THIS WHEN LIVE
 
-var players = [new Player('connor', false), new Player('michael', false), new Player('skyler', false)];
+// var players = [new Player('connor', false), new Player('michael', false), new Player('skyler', false)];
 var current = -1;
 //create a dealer and push him to position 0 in players
 players.push(new Player('Dealer', true));
