@@ -95,6 +95,15 @@ var locate = function(player, cardIndex, update) {
   }
 }
 
+var updateTable = function(){
+  for(var i = 0 ; i < players.length ; i++){
+    for(var j = 0 ; j < players[i].hand.cards.length ; j++){
+      locate(players[i], j, true);
+    }
+  }
+  setTable(true);
+};
+
 // Pass Players into this function so it can access their entire hand
 var animateCard = function(thisPlayer) {
   let thisCard = thisPlayer.hand.card;
