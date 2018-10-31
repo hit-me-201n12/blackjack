@@ -14,45 +14,53 @@ var startingTable = function() {
 };
 startingTable();
 
-// This function draws the saved state of the table throughout the game
-var setTable = function() {
+/
+var setTable = function(update) {
+  // Update determines if we're updating all the cards to new positions or animating a single card.
+  var update = update || false;
+  
+  // Clear the Canvas
   c.clearRect(0, 0, canvas.width, canvas.height);
-  ///// THIS SHOULD BE A DEFAULT TABLE OBJ///////
-  // Add in any other details/zones that should be on the table
+  // Draw default images
   var img = new Image();
   img.src = 'img/back.png';
   c.drawImage(img, 0, 0);
 
-  // Draw Existing Cards
-  // For all Players in players, draw all Cards in Hand
-  for(var i in players) {
-    for(var j in players[i].hand) {
-      c.drawImage(players[i].hand.cards[j].imgObj, players[i].hand.cards[j].x, players[i].hand.cards[j].y);
+  
+  // If update is true, draw all players' cards
+  if (update) {
+    for(var i in players) {
+      for(var j in players[i].hand) {
+        c.drawImage(players[i].hand.cards[j].imgObj, players[i].hand.cards[j].x, players[i].hand.cards[j].y);
+      }
+    }  
+  } else { // If update is false
+    for(var i in players) {
+      // Draw all players' cards, except for player 1
+      if (players[i].position !== 1){
+        for(var j in players[i].hand) {
+          c.drawImage(players[i].hand.cards[j].imgObj, players[i].hand.cards[j].x, players[i].hand.cards[j].y);
+        }
+      }
     }
   }
 };
 
-var animateCard = function() {
-  // Draw table's save state
+var locating = function(thisPlayer) {
+
+}
+
+// Pass player's into this function so it can access their entire hand
+var animateCard = function(thisPlayer) {
+  // Call the locating() function to update thisPlayer's last card's destinationX and destinationY
+  
+  // Draw table's default state and all other player's cards
   setTable();
 
-  // Draw the dynamic/moving card
-    //Reference the player's new card
-    //Draw its currentX and currentY
+  // Draw thisPlayer's cards which includes the new card
 
-  // Increment the x and y properties of the Player's card until it reaches its destination
-  
-  // Repeat by calling the window.requestAnimationFrame(animateCard) until the current and desination coordinates are equal
-  
-};
+  // Increment the currentX and currentY properties of thisPlayer's last card
 
+  // Repeat by calling the window.requestAnimationFrame(animateCard) until thisPlayer's last card's current and desination coordinates are equal
 
-var dealCard = function () {
-  // Create CardImg
-  dealt = new CardImg('ace', 'spades', 'img/ace-spades.png');
-
-
-  destinationX = 0 + (75 * (CardImg.allCards.length -1));
-  destinationY = 480; //This could change depending on card going to dealer or player
-  window.requestAnimationFrame(animateCard);
 };
