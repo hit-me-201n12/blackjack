@@ -22,11 +22,26 @@ players.push(new Player('Dealer', true));
 //Create deck for the game
 var deck;
 
-var setOrder = function(){
-  for (var i=0 ; i<players.length-1 ; i++){
-    players[i].order=i+1;
+// var setOrder = function(){
+//   for (var i=0 ; i<players.length-1 ; i++){
+//     players[i].order=i+1;
+//   }
+//   players[players.length-1].order=0;
+// };
+
+var setOrder = function() {
+  for (var i in players){
+    let order = players[i].order;
+
+    if((order-1 === 0)) {
+      order = players.length -1;
+      console.log("first player is now " + order);
+    } else if (order > 0) {
+      console.log("player " + order);
+      order -= 1;
+      console.log("is now player " + order);
+    }
   }
-  players[players.length-1].order=0;
 };
 
 var eventhandler = function(press) { //this is our event handler for hitting and staying.
@@ -83,7 +98,7 @@ var newRound = function (){
   for (var i in players){
     players[i].newGame;
   }
-  setOrder();
+  // setOrder(); We need to double check if this is the right place for this. Should be called between turns
 };
 
 var dealcards = function(){
