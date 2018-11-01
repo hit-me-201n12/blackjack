@@ -20,7 +20,7 @@ players.push(new Player('connor', false));
 players.push(new Player('michael', false));
 players.push(new Player('skyler', false));
 
-var players = JSON.parse(localStorage.getItem('players')); // USE THIS WHEN LIVE
+// var players = JSON.parse(localStorage.getItem('players')); // USE THIS WHEN LIVE
 console.log(players);
 
 var current = -1;
@@ -215,7 +215,8 @@ var testGame = function() {
   gamePlay();
 };
 // pop up function
-var popUpEl = document.getElementById('popUpRules')
+var popUpEl = document.getElementById('popUpRules');
+console.log(popUpEl);
 popUpEl.addEventListener('click', (e) => {
   var popup = document.getElementById('popUp')
   popup.classList.toggle('appear')
