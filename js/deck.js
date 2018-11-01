@@ -1,10 +1,5 @@
 'use strict';
 
-// Purpose:
-// Create Cards
-// Create Deck
-// Deal Cards
-
 function Card (value, suit, points) { //-- card object - also has a reference to source file
   // Gameplay-related properties
   this.value = value;
@@ -25,9 +20,6 @@ function Card (value, suit, points) { //-- card object - also has a reference to
 Card.prototype.points = function(){
   return(this.points);
 };
-
-//Card objects
-
 
 function Deck () { //-- make a deck of 52 cards
   this.inPlay = [];
@@ -59,5 +51,3 @@ Deck.prototype.build = function() {//-- uses card constructor to build new deck
     }
   }
 };
-
-// function calls

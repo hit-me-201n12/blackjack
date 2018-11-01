@@ -5,20 +5,12 @@
 /////////////////////////////////////////////////////////
 
 function Card (value, suit, points) {
-  // Gameplay-related properties
   this.value = value;
   this.suit = suit;
   this.face = 'down';
   this.src = './img/' + value + '-' + suit + '.png';
   this.points = points;
   this.name = value+' of '+suit;
-  // Canvas-related properties
-  this.imgObj = new Image();
-  this.imgObj.src = this.src;
-  this.currentX = 0;
-  this.currentY = 0;
-  this.destinationX = 0;
-  this.destinationY = 0;
 }
 
 Card.prototype.points = function(){
@@ -77,8 +69,28 @@ function Player(ID, dealer) {
 Player.prototype.hit = function () {
   console.log(this.ID+' hit');
   this.hand.add(deck.deal());
-  animateCard(this);
+  // call something to append new card here.
+  var image = document.createElement('img');
+  image.src = this.hand.cards[this.hand.cards.length -1][0].src;
+  image.classList.add("cards");
+
+  // New HTML Rendering
+  console.log("this player's order is " + this.order);
+  if(this.ID === 'Dealer') {
+    var destination = document.getElementById('dealer');
+    destination.appendChild(image);
+  } else if (this.order === 1) {
+    var destination = document.getElementById('playing');
+    destination.appendChild(image);
+  } else {
+    image.style.height = "60px";
+    var location = "player" + this.order;
+    var destination = document.getElementById(location);
+    destination.appendChild(image);
+  }
+
   this.check();
+
   if (this.hand.bust){
     this.playing = false;
     this.busted = true;
@@ -139,147 +151,6 @@ Hand.prototype.add = function(card){
 };
 
 /////////////////////////////////////////////////////////
-//CANVAS===============CANVAS====================CANVAS//
+//==RENDER=============RENDER==================RENDER==//
 /////////////////////////////////////////////////////////
 
-// Targeting Canvas element, setting size, and establishing link to 2d drawing methods (context)
-var canvas = document.querySelector('canvas');
-canvas.setAttribute('height', 600);
-canvas.setAttribute('width', 975);
-var c = canvas.getContext('2d');
-
-// This function draws the inital table in its default state
-var startingTable = function() {
-  var img = new Image();
-  img.src = 'img/back.png';
-  img.onload = function(){
-    c.drawImage(img, 0, 0);
-  };
-};
-// startingTable(); Tried moving this call to table.js' gameplay
-
-var setTable = function(update) {
-  // Update determines if we're drawing all the cards to updated orders or animating a single card.
-  var update = update;
-
-  // Clear the Canvas
-  c.clearRect(0, 0, canvas.width, canvas.height);
-  // Draw default images
-  var img = new Image();
-  img.src = 'img/back.png';
-  img.onload = function() {
-    c.drawImage(img, 0, 0);
-  }
-
-
-  // If update is true, draw all players' cards
-  if (update) {
-    console.log("trying to draw a change in order");
-    for(var i in players) {
-      for(var j in players[i].hand.cards) {
-        console.log("tried to draw a newly updated card");
-        players[i].hand.cards[j][0].imgObj.onload = function() {
-          c.drawImage(players[i].hand.cards[j][0].imgObj, players[i].hand.cards[j][0].currentX, players[i].hand.cards[j][0].currentY);
-        }
-      }
-    }
-  } else { // If update is false
-    for(var i in players) {
-      // Draw all players' cards, except for player 1
-      console.log("trying to draw saved state");
-      if (players[i].order !== 1){
-        for(var j in players[i].hand.cards) {
-          console.log("tried to draw a saved card")
-          players[i].hand.cards[j][0].imgObj.onload = function() {
-            c.drawImage(players[i].hand.cards[j][0].imgObj, players[i].hand.cards[j][0].currentX, players[i].hand.cards[j][0].currentY);
-          };
-        }
-      }
-    }
-  }
-};
-
-// Pass a Player and a card index into this function to either
-// if(update) calculate the new currentX and currentY
-// }else{ calculate its destinationX and destinationY
-var locate = function(player, cardIndex, update) {
-  var player = player;
-  var order = player.order;
-  var index = cardIndex;
-  var update = update; // This determines if we're updating the destination or current coordinates.
-
-  let thisCard = player.hand.cards[index][0];
-
-  if(update){
-    if(order < 2) {
-      thisCard.currentY = (order + 1) * 240;
-      thisCard.currentX = ((index-1) + 1) * 75;
-      thisCard.height = 120;
-      thisCard.width = 75;
-    } else {
-      thisCard.currentY = 30 + ((order - 2) * 90);
-      thisCard.currentX = 600 - ((index-1) * 37.5);
-      thisCard.height = 60;
-      thisCard.width = 37.5;
-    }
-  } else {
-    if(order < 2) {
-      thisCard.destinationY = (order + 1) * 240;
-      thisCard.destinationX = (index + 1) * 75;
-      thisCard.height = 120;
-      thisCard.width = 75;
-    } else {
-      thisCard.destinationY = 30 + ((order - 2) * 90);
-      thisCard.destinationX = 600 - (index * 37.5);
-      thisCard.height = 60;
-      thisCard.width = 37.5;
-    }
-  }
-};
-
-var updateTable = function(){
-  for(var i = 0 ; i < players.length ; i++){
-    for(var j = 0 ; j < players[i].hand.cards.length ; j++){
-      locate(players[i], j, true);
-    }
-  }
-  setTable(true);
-};
-
-// Pass Players into this function so it can access their entire hand
-var animateCard = function(thisPlayer) {
-  var thisPlayer = thisPlayer;
-  var thisCard = thisPlayer.hand.cards;
-  var finalCard = thisCard[thisCard.length -1][0];
-  // Call the locating() function to update thisPlayer's last card's destinationX and destinationY
-  locate(thisPlayer, thisCard.length - 1, false);
-
-  var animate = function() {
-    // Draw table's default state and all other player's cards
-    setTable(false);
-
-    // Draw thisPlayer's cards which includes the new card
-    console.log("length of thisCard is " + thisPlayer.hand.cards.length);
-    for (var i in thisPlayer.hand.cards) {
-      thisCard[i][0].imgObj.onload = function(){
-        console.log("drawing this player's cards");
-        c.drawImage(thisCard[i][0].imgObj, thisCard[i][0].currentX, thisCard[i][0].currentY, thisCard[i][0].width, thisCard[i][0].height);
-      };
-    }
-
-    // Increment the currentX and currentY properties of thisPlayer's last card
-    if(finalCard.currentX < finalCard.destinationX){
-      finalCard.currentX += 1;
-    }
-    if(finalCard.currentY < finalCard.destinationY){
-      finalCard.currentY +=1;
-    }
-
-    // Repeat by calling the window.requestAnimationFrame(animateCard) until thisPlayer's last card's current and desination coordinates are equal
-    if(finalCard.currentX < finalCard.destinationX || finalCard.currentY < finalCard.destinationY) {
-      window.requestAnimationFrame(animate);
-    }
-  };
-
-  window.requestAnimationFrame(animate);
-};

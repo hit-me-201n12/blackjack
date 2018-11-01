@@ -83,8 +83,6 @@ var eventhandler = function(press) { //this is our event handler for hitting and
 
 // gameplay
 var gamePlay = function() {
-  // Draw the initial table
-  startingTable();
   //Write something to clear/reset all players objects (hand, and booleans)
   console.log('newRound');
   newRound();
@@ -118,14 +116,13 @@ var dealcards = function(){
 
 var nextPlayer = function(){
   current++;
-  setOrder();
-
+  
   console.log();
   console.log(players[current].ID+'s turn, current score: '+players[current].hand.score+' order '+players[current].order);
   //console.log(players[current]+'s turn, score: '+players[current].hand.score);
-
-
-
+  
+  
+  
   if(players[current].dealer){//if the current player is the dealer
     dealerTurn();
   }else if (current<players.length-1){
@@ -135,6 +132,7 @@ var nextPlayer = function(){
       nextPlayer();
     }
   }
+  setOrder();
 };
 
 var dealerTurn = function(){
