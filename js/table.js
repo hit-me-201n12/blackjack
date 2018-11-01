@@ -202,7 +202,7 @@ var checkScores = function(){
         players[current].wins--;
       }
     }else{
-      console.log(players[current]+' lost their hand.');
+      console.log(players[current].ID+' lost their hand.');
     }
     if (current>-1){
       checkScores();

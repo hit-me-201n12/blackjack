@@ -62,9 +62,13 @@ function Player(ID, dealer) {
   if(dealer){
     this.order = 0;
   } else {
+    // Set Order
     this.order = players.length +1;
+    // Add name to div
+    var target = document.getElementById('player' + this.order + 'Name');
+    target.textContent = this.ID;
   }
-}
+};
 
 Player.prototype.hit = function () {
   console.log(this.ID+' hit');
@@ -80,11 +84,11 @@ Player.prototype.hit = function () {
     var destination = document.getElementById('player0');
     destination.appendChild(image);
   } else if (this.order === 1) {
-    var destination = document.getElementById('player1');
+    var destination = document.getElementById('player1Cards');
     destination.appendChild(image);
   } else {
     image.style.height = "60px";
-    var location = "player" + this.order;
+    var location = "player" + this.order + "Cards";
     var destination = document.getElementById(location);
     destination.appendChild(image);
   }
@@ -158,10 +162,10 @@ Hand.prototype.add = function(card){
 //==RENDER=============RENDER==================RENDER==//
 /////////////////////////////////////////////////////////
 
-
+// Clears players' cards from their divs in prep for moving them around the table
 var clearPlayerCards = function () {
   for (var i = 0; i < 6; i++){
-    var id = "player" + (i + 1);
+    var id = "player" + (i + 1) + "Cards";
     var target = document.getElementById(id);
     while (target.firstChild){
       target.removeChild(target.firstChild);
@@ -169,32 +173,36 @@ var clearPlayerCards = function () {
   }
 };
 
+// Inserts players' cards and name into their new divs between turns
 var movePlayerCards = function() {
-  console.log("trying to clear cards");
+  // Clear previous cards
   clearPlayerCards();
-  console.log("trying to move cards now");
-
+  // Insert players' content into new locations
   for(var i = 0; i < players.length -1; i++) {
-    var target = document.getElementById("player" + players[i].order);
-    console.log("player is: player" + players[i].order);
+    // Name
+    var nameTarget = document.getElementById('player' + players[i].order + 'Name');
+    nameTarget.textContent = players[i].ID;
+    // Cards
+    var target = document.getElementById("player" + players[i].order + "Cards");
     for(var j = 0; j < players[i].hand.cards.length; j++){
       var image = document.createElement('img');
       image.classList.add("cards");
       image.src = players[i].hand.cards[j][0].src;
+      // Scale down cards for players in the sidebar
       if (players[i].order > 1) {
         image.style.height = "60px";
         image.style.width = "37.5px"; 
       }
-      console.log(image.src);
       target.appendChild(image);
     }
   }
-}
+};
 
+// Clears the dealer's cards from its div between games
 var clearDealerCards = function() {
   var target = document.getElementById('player0');
   while(target.firstChild){
     target.removeChild(target.firstChild);
   }
-}
+};
 
