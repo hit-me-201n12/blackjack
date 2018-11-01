@@ -44,6 +44,7 @@ var handleNewGame = function(startEvent) {
 
   var buttonEl = document.createElement('button');
   var bText = document.createTextNode('Buy In!');
+  buttonEl.setAttribute('class','button');
   buttonEl.setAttribute('type','submit');
   newEmForm.appendChild(buttonEl);
   buttonEl.appendChild(bText);
