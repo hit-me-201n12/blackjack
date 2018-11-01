@@ -1,4 +1,5 @@
 @import url(reset.css);
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 
 #gameSpace {
 	height: 600px;
@@ -24,7 +25,7 @@
 }
 /* POP UP CSS */
 #popUpRules {
-    float: left;
+	float: left;
 	margin-top: 10px;
 	margin-left: 30px;
 	padding: 18px;
@@ -33,7 +34,6 @@
 	border: 5px solid #00ff00;
 	color: #00ff00;
     user-select: none;
-	font-family: monospace, sans-serif;
 }
 
 /* The actual popup */
@@ -54,29 +54,63 @@
 
 /* Toggle this class - hide and show the popup with visibility key */
 #popUpRules .appear {
-    visibility: visible;
+	visibility: visible;
 	animation: fadeIn 1s;
 	box-shadow: 10px 10px rgba(5,5,5,0.5);
 }
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-    from {opacity: 0;} 
+	from {opacity: 0;} 
     to {opacity: 1;}
 }
 
 @keyframes fadeIn {
-    from {opacity: 0;}
+	from {opacity: 0;}
     to {opacity:1 ;}
 }
 /* About Us Style */
 body {
 	background: black;
+	color: white;
+	font-family: 'Press start 2P', monospace, sans-serif; 
+}
+main {
+	margin: auto;
+	width: 15%;
 }
 h1 {
 	margin: auto 250px;
 	text-align: center;
 	color: white;
 }
+
+fieldset {
+	border: none;
+	width: 200px;
+	text-align: center;
+}
+
+input, option {
+	font-family: 'Press start 2P', monospace, sans-serif; 
+}
+.button{
+background-color: #00ff00;
+border: none;
+padding: 10px;
+font-family: 'Press start 2P', monospace, sans-serif; 
+}
+
+a:link, a:visited {
+	color: #00ff00;
+}
+
+footer{
+	text-align: center;
+}
+#disFoot {
+	font-size: 10px;
+}
+
 #mainBox {
 	border: 5px solid lightgreen;
 	background-color:black;
@@ -102,6 +136,7 @@ h1 {
     padding: -10px;
     background: black;	
 }
+
 /* box content -- three divs stacked inside parent container */
 #specializations {
     margin: 5px;
