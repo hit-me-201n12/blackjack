@@ -1,5 +1,4 @@
 'use strict';
-let log = console.log();
 
 // Purpose:
 // Starting Game
@@ -13,24 +12,22 @@ let log = console.log();
 //    Iterates over players
 
 // Global Vars
+
 //var players = JSON.parse(localStorage.getItem('players'));    USE THIS WHEN LIVE
 
 var players = [];
 players.push(new Player('connor', false)); 
 players.push(new Player('michael', false));
 players.push(new Player('skyler', false));
+
+var players = JSON.parse(localStorage.getItem('players')); // USE THIS WHEN LIVE
+console.log(players);
+
 var current = -1;
 //create a dealer and push him to position 0 in players
 players.push(new Player('Dealer', true));
 //Create deck for the game
 var deck;
-
-// var setOrder = function(){
-//   for (var i=0 ; i<players.length-1 ; i++){
-//     players[i].order=i+1;
-//   }
-//   players[players.length-1].order=0;
-// };
 
 var setOrder = function() {
   for (var i in players){
@@ -48,17 +45,10 @@ var setOrder = function() {
 };
 
 var eventhandler = function(press) { //this is our event handler for hitting and staying.
-  
-  console.log(current);
-  if (current===-1){
-    return;
-  }
-  //condition, only use keyboard for hit and stay if not the dealer
-  if (players[current].playing){//condition, only hit or stay if the current player is still playing
-    if (!players[current].dealer===true){
+  if (!players[current].dealer===true){//condition, only use keyboard for hit and stay if not the dealer
+    if (players[current].playing){//condition, only hit or stay if the current player is still playing
       let key = press.char || press.charCode || press.which;
       if (key === 32) { //if the user presses space:
-        press.preventDefault();
         players[current].hit();//player is dealt a card
         // Check to see if player has busted or blackJack to set 'playing' to false
         if(players[current].blackJack){
@@ -69,13 +59,13 @@ var eventhandler = function(press) { //this is our event handler for hitting and
           nextPlayer();
         }
       } else if (key === 13) {// if user presses enter
-        // function call back playerStand()
-        press.preventDefault();
+      // function call back playerStand()
         players[current].stay();
         nextPlayer();
       }
     }
   }
+
 };
 
 
@@ -91,6 +81,7 @@ var gamePlay = function() {
   console.log('dealCards');
   dealcards();
   console.log('done dealing cards');
+
   // taking turns checking scores
   nextPlayer();
 };
@@ -102,16 +93,15 @@ var newRound = function (){
   for (var i in players){
     players[i].newGame;
   }
-  // setOrder(); We need to double check if this is the right place for this. Should be called between turns
 };
 
 var dealcards = function(){
   for(var j = players.length-1; j > -1; j--){
     players[j].hit();
-    // Static render current state
   }
   for(var i in players) {
     players[i].hit();
+    console.log(players[i]);
   }
 };
 
@@ -121,11 +111,29 @@ var nextPlayer = function(){
   console.log();
   console.log(players[current].ID+'s turn, current score: '+players[current].hand.score+' order '+players[current].order);
   //console.log(players[current]+'s turn, score: '+players[current].hand.score);
-  
-  
-  
+
   if(players[current].dealer){//if the current player is the dealer
-    dealerTurn();
+    window.removeEventListener('keypress', window);
+    var dPlay=true;
+    while(dPlay===true){
+      if(players[current].hand.score<17){
+        players[current].hit();
+      }else if (players[current].hand.score === 17 && players[current].hand.aces>0){
+        players[current].hit;
+      }else if(players[current].hand.score===17){
+        console.log('dealerStay');
+        players[current].stay;
+        dPlay=false;
+        break;
+      }else{
+        console.log('dealerStay');
+        players[current].stay;
+        dPlay=false;
+        break;
+      }
+    }
+    current--;
+    checkScores();
   }else if (current<players.length-1){
     window.addEventListener('keypress', eventhandler);
     if(!players[current].playing && players[current].hand.blackJack){
@@ -191,11 +199,13 @@ var checkScores = function(){
           console.log(players[current].ID+' lost their hand');
         }
       }else{
-        console.log(players[current].ID+' lost their hand.');
+        players[current].wins--;
       }
-      if (current>-1){
-        checkScores();
-      }
+    }else{
+      console.log(players[current]+' lost their hand.');
+    }
+    if (current>-1){
+      checkScores();
     }
   }
 };
@@ -203,8 +213,14 @@ var checkScores = function(){
 var testGame = function() {
   console.log(players);
   gamePlay();
-
 };
+// pop up function
+var popUpEl = document.getElementById('popUpRules')
+popUpEl.addEventListener('click', (e) => {
+  var popup = document.getElementById('popUp')
+  popup.classList.toggle('appear')
+})
+// call classList.toggle DOM method on popup element. This DOM method creates a class with the name of the string value passed as an argument. In the CSS, a selector named #popUpRules .appear exists already. By creating the class 'appear', it activates the CSS block that styles the .appear class. One of the properties is visibility: visible. This event handler takes the element in its existing state of visibility: hidden to the new state of visibility: visible. With a z-index, it appears on top of other elements.
 
 // function calls
 testGame();
