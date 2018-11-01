@@ -9,6 +9,10 @@
 </head>
 <body>
     <h1>Hit-Me! Blackjack</h1>
+
+    <img src="./img/big-back.png" height="400">
+
+    <fieldset>
     <form id="newGameForm">
         <!-- integrate first question to ask how many players, then show that many fields to enter names -->
 
@@ -26,12 +30,13 @@
                 </select>
                 <button type="submit">This Many!</button>
             </p>
-         <!-- </fieldset> -->
-        <!-- <input name="ID" type="text" /> -->
     </form>
+    </fieldset>
+
+    <fieldset id="emptyFormD">
     <form id="emForm"></form>
-    <div><button type="button" onclick="window.location.href = 'aboutUs.html';">About Page</button>
-    </div>
+    <button type="button" onclick="window.location.href = 'aboutUs.html';">About Page</button>
+    </fieldset>
 <script src="./js/home.js"></script>
 <script src="./js/player.js"></script>
 </body>

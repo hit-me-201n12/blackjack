@@ -40,6 +40,8 @@ var handleNewGame = function(startEvent) {
     nameEl.setAttribute('name','player'+(i+1));
     nameEl.setAttribute('type','text');
   }
+  gameForm.remove();
+
   var buttonEl = document.createElement('button');
   var bText = document.createTextNode('Buy In!');
   buttonEl.setAttribute('type','submit');
