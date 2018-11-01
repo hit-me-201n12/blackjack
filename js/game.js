@@ -77,10 +77,10 @@ Player.prototype.hit = function () {
   // New HTML Rendering
   console.log("this player's order is " + this.order);
   if(this.ID === 'Dealer') {
-    var destination = document.getElementById('dealer');
+    var destination = document.getElementById('player0');
     destination.appendChild(image);
   } else if (this.order === 1) {
-    var destination = document.getElementById('playing');
+    var destination = document.getElementById('player1');
     destination.appendChild(image);
   } else {
     image.style.height = "60px";
@@ -94,13 +94,16 @@ Player.prototype.hit = function () {
   if (this.hand.bust){
     this.playing = false;
     this.busted = true;
+    setOrder();
   }
   if (this.hand.blackJack){
     this.playing=false;
     this.blackJack=true;
+    setOrder();
   }
   if (this.hand.score===21){
     this.playing===false;
+    setOrder();
   }
 };
 
@@ -108,6 +111,7 @@ Player.prototype.stay = function() {
   this.check();
   console.log('stay');
   this.playing = false;
+  setOrder();
 };
 
 Player.prototype.newGame = function(){
@@ -153,4 +157,44 @@ Hand.prototype.add = function(card){
 /////////////////////////////////////////////////////////
 //==RENDER=============RENDER==================RENDER==//
 /////////////////////////////////////////////////////////
+
+
+var clearPlayerCards = function () {
+  for (var i = 0; i < 6; i++){
+    var id = "player" + (i + 1);
+    var target = document.getElementById(id);
+    while (target.firstChild){
+      target.removeChild(target.firstChild);
+    }
+  }
+};
+
+var movePlayerCards = function() {
+  console.log("trying to clear cards");
+  clearPlayerCards();
+  console.log("trying to move cards now");
+
+  for(var i = 0; i < players.length -1; i++) {
+    var target = document.getElementById("player" + players[i].order);
+    console.log("player is: player" + players[i].order);
+    for(var j = 0; j < players[i].hand.cards.length; j++){
+      var image = document.createElement('img');
+      image.classList.add("cards");
+      image.src = players[i].hand.cards[j][0].src;
+      if (players[i].order > 1) {
+        image.style.height = "60px";
+        image.style.width = "37.5px"; 
+      }
+      console.log(image.src);
+      target.appendChild(image);
+    }
+  }
+}
+
+var clearDealerCards = function() {
+  var target = document.getElementById('player0');
+  while(target.firstChild){
+    target.removeChild(target.firstChild);
+  }
+}
 

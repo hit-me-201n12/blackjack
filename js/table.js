@@ -44,6 +44,7 @@ var setOrder = function() {
       console.log("is now player " + players[i].order);
     }
   }
+  movePlayerCards();
 };
 
 var eventhandler = function(press) { //this is our event handler for hitting and staying.
@@ -129,10 +130,10 @@ var nextPlayer = function(){
     window.addEventListener('keypress', eventhandler);
     if(!players[current].playing && players[current].hand.blackJack){
       console.log(players[current].ID+' scored blackjack off of the draw!');
+      setOrder();
       nextPlayer();
     }
   }
-  setOrder();
 };
 
 var dealerTurn = function(){
