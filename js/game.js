@@ -72,8 +72,6 @@ function Player(ID, dealer) {
   } else {
     this.order = players.length +1;
   }
-  ;
-
 }
 
 Player.prototype.hit = function () {
@@ -158,11 +156,11 @@ var startingTable = function() {
     c.drawImage(img, 0, 0);
   };
 };
-startingTable();
+// startingTable(); Tried moving this call to table.js' gameplay
 
 var setTable = function(update) {
-  // Update determines if we're updating all the cards to new orders or animating a single card.
-  var update = update || false;
+  // Update determines if we're drawing all the cards to updated orders or animating a single card.
+  var update = update;
 
   // Clear the Canvas
   c.clearRect(0, 0, canvas.width, canvas.height);
@@ -176,10 +174,10 @@ var setTable = function(update) {
 
   // If update is true, draw all players' cards
   if (update) {
-    console.log("tried to update");
+    console.log("trying to draw a change in order");
     for(var i in players) {
       for(var j in players[i].hand.cards) {
-        console.log("tried to draw an updated player");
+        console.log("tried to draw a newly updated card");
         players[i].hand.cards[j][0].imgObj.onload = function() {
           c.drawImage(players[i].hand.cards[j][0].imgObj, players[i].hand.cards[j][0].currentX, players[i].hand.cards[j][0].currentY);
         }
@@ -188,13 +186,13 @@ var setTable = function(update) {
   } else { // If update is false
     for(var i in players) {
       // Draw all players' cards, except for player 1
-      console.log("tried to draw saved state");
+      console.log("trying to draw saved state");
       if (players[i].order !== 1){
         for(var j in players[i].hand.cards) {
-          console.log("tried to draw a saved player")
+          console.log("tried to draw a saved card")
           players[i].hand.cards[j][0].imgObj.onload = function() {
             c.drawImage(players[i].hand.cards[j][0].imgObj, players[i].hand.cards[j][0].currentX, players[i].hand.cards[j][0].currentY);
-          }
+          };
         }
       }
     }
@@ -250,34 +248,38 @@ var updateTable = function(){
 
 // Pass Players into this function so it can access their entire hand
 var animateCard = function(thisPlayer) {
-  let thisCard = thisPlayer.hand.cards;
-  let finalCard = thisCard[thisCard.length -1][0];
-
+  var thisPlayer = thisPlayer;
+  var thisCard = thisPlayer.hand.cards;
+  var finalCard = thisCard[thisCard.length -1][0];
   // Call the locating() function to update thisPlayer's last card's destinationX and destinationY
   locate(thisPlayer, thisCard.length - 1, false);
 
-  // Draw table's default state and all other player's cards
-  setTable();
+  var animate = function() {
+    // Draw table's default state and all other player's cards
+    setTable(false);
 
-  // Draw thisPlayer's cards which includes the new card
-  for (var i in thisPlayer.hand.cards) {
-    console.log(thisCard[i][0].imgObj, 'I am an imgObj');
-    console.log(thisCard[i][0].currentX, 'I am a coordinate');
-    thisCard[i][0].imgObj.onload = function(){
-      c.drawImage(thisCard[i][0].imgObj, thisCard[i][0].currentX, thisCard[i][0].currentY, thisCard[i][0].width, thisCard[i][0].height);
+    // Draw thisPlayer's cards which includes the new card
+    console.log("length of thisCard is " + thisPlayer.hand.cards.length);
+    for (var i in thisPlayer.hand.cards) {
+      thisCard[i][0].imgObj.onload = function(){
+        console.log("drawing this player's cards");
+        c.drawImage(thisCard[i][0].imgObj, thisCard[i][0].currentX, thisCard[i][0].currentY, thisCard[i][0].width, thisCard[i][0].height);
+      };
     }
-  }
 
-  // Increment the currentX and currentY properties of thisPlayer's last card
-  if(finalCard.currentX < finalCard.destinationX){
-    finalCard.currentX += 1;
-  }
-  if(finalCard.currentY < finalCard.destinationY){
-    finalCard.currentY +=1;
-  }
+    // Increment the currentX and currentY properties of thisPlayer's last card
+    if(finalCard.currentX < finalCard.destinationX){
+      finalCard.currentX += 1;
+    }
+    if(finalCard.currentY < finalCard.destinationY){
+      finalCard.currentY +=1;
+    }
 
-  // Repeat by calling the window.requestAnimationFrame(animateCard) until thisPlayer's last card's current and desination coordinates are equal
-  if(finalCard.currentX <= finalCard.destinationX && finalCard.currentY <= finalCard.destinationY) {
-    window.requestAnimationFrame(animateCard);
-  }
+    // Repeat by calling the window.requestAnimationFrame(animateCard) until thisPlayer's last card's current and desination coordinates are equal
+    if(finalCard.currentX < finalCard.destinationX || finalCard.currentY < finalCard.destinationY) {
+      window.requestAnimationFrame(animate);
+    }
+  };
+
+  window.requestAnimationFrame(animate);
 };

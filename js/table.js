@@ -34,15 +34,14 @@ var deck;
 
 var setOrder = function() {
   for (var i in players){
-    let order = players[i].order;
 
-    if((order-1 === 0)) {
-      order = players.length -1;
-      console.log("first player is now " + order);
-    } else if (order > 0) {
-      console.log("player " + order);
-      order -= 1;
-      console.log("is now player " + order);
+    if((players[i].order-1 === 0)) {
+      players[i].order = players.length -1;
+      console.log("first player is now " + players[i].order);
+    } else if (players[i].order > 0) {
+      console.log("player " + players[i].order);
+      players[i].order -= 1;
+      console.log("is now player " + players[i].order);
     }
   }
 };
@@ -84,12 +83,15 @@ var eventhandler = function(press) { //this is our event handler for hitting and
 
 // gameplay
 var gamePlay = function() {
+  // Draw the initial table
+  startingTable();
   //Write something to clear/reset all players objects (hand, and booleans)
-  newRound();
   console.log('newRound');
+  newRound();
   // deal the cards
-  dealcards();
   console.log('dealCards');
+  dealcards();
+  console.log('done dealing cards');
   // taking turns checking scores
   nextPlayer();
 };
@@ -107,6 +109,7 @@ var newRound = function (){
 var dealcards = function(){
   for(var j = players.length-1; j > -1; j--){
     players[j].hit();
+    // Static render current state
   }
   for(var i in players) {
     players[i].hit();
@@ -115,7 +118,7 @@ var dealcards = function(){
 
 var nextPlayer = function(){
   current++;
-  playerOrder(1);
+  setOrder();
 
   console.log();
   console.log(players[current].ID+'s turn, current score: '+players[current].hand.score+' order '+players[current].order);
@@ -173,7 +176,6 @@ var dealerTurn = function(){
 
 var checkScores = function(){
   current--;
-  playerOrder(-1);
   if (current>-1){
     if (!players[players.length-1].playing){
       var dealerbust= (players[players.length-1].busted);
@@ -197,28 +199,6 @@ var checkScores = function(){
       }
     }
   }
-};
-
-var playerOrder = function(direction){
-  if (direction===1){
-    for(var i = 0; i<players.length-1; i++) {
-      if (players[i].order===1){
-        players[i].order===players.length;
-      }else{
-        players[i].order--;
-      }
-    }
-  }
-  if (direction===-1){
-    for(var i = 0; i<players.length-1; i++) {
-      if (players[i].order===players.length){
-        players[i].order===1;
-      }else{
-        players[i].order++;
-      }
-    }
-  }
-  updateTable();
 };
 
 var testGame = function() {
