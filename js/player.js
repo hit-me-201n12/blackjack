@@ -22,7 +22,6 @@ Player.prototype.hit = function () {
   console.log(this.ID+' hit');
   this.hand.add(deck.deal());
   animateCard(this);
-  this.check();
   if (this.hand.bust){
     this.playing = false;
     this.busted = true;
@@ -37,7 +36,6 @@ Player.prototype.hit = function () {
 };
 
 Player.prototype.stay = function() {
-  this.check();
   console.log('stay');
   this.playing = false;
 };
