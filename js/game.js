@@ -71,15 +71,17 @@ function Player(ID, dealer) {
 };
 
 Player.prototype.hit = function () {
-  console.log(this.ID+' hit');
   this.hand.add(deck.deal());
+  if (this.hand.cards.length>2 && !this.dealer){
+    newStatus(this.ID+' hit');
+    newStatus(this.hand.score);
+  }
   // call something to append new card here.
   var image = document.createElement('img');
   image.src = this.hand.cards[this.hand.cards.length -1][0].src;
   image.classList.add("cards");
 
   // New HTML Rendering
-  console.log("this player's order is " + this.order);
   if(this.ID === 'Dealer') {
     var destination = document.getElementById('player0');
     destination.appendChild(image);
@@ -92,28 +94,31 @@ Player.prototype.hit = function () {
     var destination = document.getElementById(location);
     destination.appendChild(image);
   }
-
-  this.check();
-
   if (this.hand.bust){
+    newStatus(this.ID+' busted.');
     this.playing = false;
     this.busted = true;
     setOrder();
   }
   if (this.hand.blackJack){
+    newStatus(this.ID+' drew 21!');
     this.playing=false;
     this.blackJack=true;
     setOrder();
   }
   if (this.hand.score===21){
+    if (this.hand.cards.length>2){
+      newStatus(this.ID+' scored 21!');
+    }
     this.playing===false;
     setOrder();
   }
 };
 
 Player.prototype.stay = function() {
-  this.check();
-  console.log('stay');
+  if (!this.dealer){
+    newStatus(this.ID+' stayed at '+this.hand.score);
+  }
   this.playing = false;
   setOrder();
 };
@@ -121,14 +126,6 @@ Player.prototype.stay = function() {
 Player.prototype.newGame = function(){
   console.log('creating new hand for ' + this.ID);
   this.hand=new Hand;
-};
-
-Player.prototype.check = function(){
-  var x='';
-  for (var i = 0 ; i<this.hand.cards.length; i++){
-    x+=this.hand.cards[i][0].name;
-  }
-  console.log(this.ID+': '+x+'   Score: '+this.hand.score);
 };
 
 function Hand() {
@@ -151,17 +148,17 @@ Hand.prototype.add = function(card){
       this.ace--;
     }else{
       this.bust = true;
-      console.log('BUST!');
     }
   } else if(this.score === 21 && this.cards.length===2) {
     this.blackJack = true;
-    console.log('BLACKJACK!');
   }
 };
 
 /////////////////////////////////////////////////////////
 //==RENDER=============RENDER==================RENDER==//
 /////////////////////////////////////////////////////////
+
+var ulLi=document.getElementById('statusUl');
 
 // Clears players' cards from their divs in prep for moving them around the table
 var clearPlayerCards = function () {
@@ -207,6 +204,26 @@ var clearDealerCards = function() {
   }
 };
 
+var newStatus = function(string){
+  var liEl = document.createElement('li');
+  liEl.textContent=string;
+  statusUl.appendChild(liEl);
+  updateScroll();
+}
+
+function updateScroll(){
+  var element = document.getElementById("log");
+  element.scrollTop = element.scrollHeight;
+}
+
+
+
+
+
+
+
+
+
 /////////////////////////////////////////////////////////
 //==TABLE===============TABLE===================TABLE==//
 /////////////////////////////////////////////////////////
@@ -217,7 +234,6 @@ players.push(new Player('michael', false));
 players.push(new Player('skyler', false));
 
 // var players = JSON.parse(localStorage.getItem('players')); // USE THIS WHEN LIVE
-console.log(players);
 
 var current = -1;
 //create a dealer and push him to position 0 in players
@@ -227,21 +243,18 @@ var deck;
 
 var setOrder = function() {
   for (var i in players){
-
     if((players[i].order-1 === 0)) {
       players[i].order = players.length -1;
-      console.log("first player is now " + players[i].order);
     } else if (players[i].order > 0) {
-      console.log("player " + players[i].order);
       players[i].order -= 1;
-      console.log("is now player " + players[i].order);
     }
   }
   movePlayerCards();
 };
 
 var eventhandler = function(press) { //this is our event handler for hitting and staying.
-  if (!players[current].dealer===true){//condition, only use keyboard for hit and stay if not the dealer
+  if (current>-1){
+  if (!players[current].dealer){//condition, only use keyboard for hit and stay if not the dealer
     if (players[current].playing){//condition, only hit or stay if the current player is still playing
       let key = press.char || press.charCode || press.which;
       if (key === 32) { //if the user presses space:
@@ -261,18 +274,14 @@ var eventhandler = function(press) { //this is our event handler for hitting and
       }
     }
   }
-
+}
 };
 
 var gamePlay = function() {
   //Write something to clear/reset all players objects (hand, and booleans)
-  console.log('newRound');
   newRound();
   // deal the cards
-  console.log('dealCards');
   dealcards();
-  console.log('done dealing cards');
-
   // taking turns checking scores
   nextPlayer();
 };
@@ -293,42 +302,18 @@ var dealcards = function(){
   }
   for(var i in players) {
     players[i].hit();
-    console.log(players[i]);
   }
 };
 
 var nextPlayer = function(){
   current++;
-
-  console.log(players[current].ID+'s turn, current score: '+players[current].hand.score+' order '+players[current].order);
-  //console.log(players[current]+'s turn, score: '+players[current].hand.score);
-
+  newStatus(players[current].ID+'s turn, current score: '+players[current].hand.score);
   if(players[current].dealer){//if the current player is the dealer
-    window.removeEventListener('keypress', window);
-    var dPlay=true;
-    while(dPlay===true){
-      if(players[current].hand.score<17){
-        players[current].hit();
-      }else if (players[current].hand.score === 17 && players[current].hand.aces>0){
-        players[current].hit;
-      }else if(players[current].hand.score===17){
-        console.log('dealerStay');
-        players[current].stay;
-        dPlay=false;
-        break;
-      }else{
-        console.log('dealerStay');
-        players[current].stay;
-        dPlay=false;
-        break;
-      }
-    }
-    current--;
-    checkScores();
+    dealerTurn();
   }else if (current<players.length-1){
     window.addEventListener('keypress', eventhandler);
     if(!players[current].playing && players[current].hand.blackJack){
-      console.log(players[current].ID+' scored blackjack off of the draw!');
+      newStatus(players[current].ID+' scored blackjack off of the draw!');
       setOrder();
       nextPlayer();
     }
@@ -337,39 +322,32 @@ var nextPlayer = function(){
 
 var dealerTurn = function(){
   window.removeEventListener('keypress', window);
-  var dPlay=true;
-  while(dPlay===true){
-    if(players[current].hand.score<17){ //hits below 17
-      players[current].hit();
-      if(players[current].busted||players[current].hand.score===21){
+    var dPlay=true;
+    while(dPlay===true){
+      if(players[current].hand.score<17){
+        newStatus('The dealer hit at '+players[current].hand.score);
+        players[current].hit();
+      }else if (players[current].hand.score === 17 && players[current].hand.aces>0){
+        newStatus('The dealer hit with a soft 17');
+        players[current].hit;
+      }else if(players[current].hand.score===17){
+        if (!player[current.hand.bust]){
+        newStatus('The dealer stayed at '+players[current].hand.score);
+        }
+        players[current].stay;
         dPlay=false;
-        players[current].playing=false;
-        checkScores();
-      }
-    }else if (players[current].hand.score === 17 && players[current].hand.aces>0){ //hits a soft 17
-      players[current].hit;
-      if(players[current].busted||players[current].hand.score===21){
+        break;
+      }else{
+        if (!players[current].hand.bust){
+          newStatus('The dealer stayed at '+players[current].hand.score);
+          }
+        players[current].stay;
         dPlay=false;
-        players[current].playing=false;
-        checkScores();
-        return;
+        break;
       }
-    }else if(players[current].hand.score===17){
-      console.log('dealerStay');
-      players[current].stay;
-      players[current].playing=false;
-      checkScores();
-      dPlay=false;
-      return;
-    }else{
-      console.log('dealerStay');
-      players[current].stay;
-      players[current].playing=false;
-      checkScores();
-      dPlay=false;
-      return;
     }
-  }
+    current--;
+    checkScores();
 };
 
 var checkScores = function(){
@@ -381,19 +359,18 @@ var checkScores = function(){
       if (!players[current].busted){
         if (players[current].hand.score>dealerScore||dealerbust){
           players[current].wins++;
-          console.log(players[current].ID+' won their hand.');
+          newStatus(players[current].ID+' won their hand.');
         }else if (players[current].hand.score===dealerScore){
           players[current].wins+=0;
-          console.log(players[current].ID+' washed.');
+          newStatus(players[current].ID+' washed.');
         }else{
           players[current].wins--;
-          console.log(players[current].ID+' lost their hand');
+          newStatus(players[current].ID+' lost their hand');
         }
       }else{
         players[current].wins--;
+        newStatus(players[current].ID+' lost their hand.');
       }
-    }else{
-      console.log(players[current].ID+' lost their hand.');
     }
     if (current>-1){
       checkScores();
@@ -407,7 +384,6 @@ var checkScores = function(){
 };
 
 var testGame = function() {
-  console.log(players);
   gamePlay();
 };
 
@@ -438,7 +414,6 @@ gameControls.addEventListener('click', nextGame);
 
 // pop up function
 var popUpEl = document.getElementById('popUpRules');
-console.log(popUpEl);
 popUpEl.addEventListener('click', (e) => {
   var popup = document.getElementById('popUp')
   popup.classList.toggle('appear')

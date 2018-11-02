@@ -67,7 +67,20 @@ div {
     height: 180px;
     width: 100%;
     margin-right: 10px;
-    overflow-y: scroll; 
+}
+
+#log {
+    overflow-y: scroll;
+    float:left;
+}
+
+#statusUl {
+    list-style: none;
+    height:150px;
+    font-size: 10px;
+    font-weight: 50;
+    color:yellow;
+
 }
 
 .onDeck {
