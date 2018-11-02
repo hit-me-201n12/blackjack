@@ -119,6 +119,7 @@ Player.prototype.stay = function() {
 };
 
 Player.prototype.newGame = function(){
+  console.log('creating new hand for ' + this.ID);
   this.hand=new Hand;
 };
 
@@ -281,7 +282,8 @@ var newRound = function (){
   deck.build();
   deck.shuffle();
   for (var i in players){
-    players[i].newGame;
+    console.log('clearing player ' + players[i].ID);
+    players[i].newGame();
   }
 };
 
@@ -397,12 +399,42 @@ var checkScores = function(){
       checkScores();
     }
   }
+  // Display the buttons
+  var button1 = document.getElementById('continue');
+  var button2 = document.getElementById('quit');
+  button1.style.display = 'block';
+  button2.style.display = 'block';
 };
 
 var testGame = function() {
   console.log(players);
   gamePlay();
 };
+
+var nextGame = function(event) {
+  var event = event;
+  var button1 = document.getElementById('continue');
+  var button2 = document.getElementById('quit');
+  button1.style.display = 'none';
+  button2.style.display = 'none';
+  var option = event.target.id;
+  if (option === 'quit'){
+    // This needs to be checked
+    console.log('quitting game');
+    window.location.href = 'home.html';
+    clearPlayerCards();
+    clearDealerCards();
+    gamePlay();
+  } else if (option === 'continue') {
+    console.log('resetting game');
+    clearPlayerCards();
+    clearDealerCards();
+    gamePlay();
+  }
+};
+
+var gameControls = document.getElementById('gameControls');
+gameControls.addEventListener('click', nextGame);
 
 // pop up function
 var popUpEl = document.getElementById('popUpRules');
