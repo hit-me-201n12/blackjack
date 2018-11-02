@@ -40,6 +40,7 @@ var handleNewGame = function(startEvent) {
     nameEl.setAttribute('name','player'+(i+1));
     nameEl.setAttribute('type','text');
   }
+  
   gameForm.remove();
 
   var buttonEl = document.createElement('button');
@@ -53,6 +54,7 @@ var handleNewGame = function(startEvent) {
 
 var handleNumPlayers = function(numEvent) {
 	// second sub-form to handle name fields
+
   numEvent.preventDefault();
   numEvent.stopPropagation();
 
