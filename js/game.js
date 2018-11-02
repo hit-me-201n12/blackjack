@@ -1,5 +1,63 @@
 'use strict';
+/////////////////////////////////////////////////////////
+//==SOUND FX===========SOUND FX================SOUND FX//
+/////////////////////////////////////////////////////////
+var soundToPlay = 0
+function playHitSound () {
+  var sounds = hitSounds[soundToPlay % hitSounds.length]
+  sounds.currentTime = 0
+  sounds.play()
+  soundToPlay += 1
+}
+var hitSound = new Audio()
+hitSound.src = 'audio/hit 1.mp3'
+hitSound.oncanplaythrough = function () {
+  hitSound.readyToPlay = true
+}
+var hitSound2 = new Audio()
+hitSound2.src = 'audio/hit 2.mp3'
+hitSound2.oncanplaythrough = function () {
+  hitSound2.readyToPlay = true
+}
 
+var hitSounds = [hitSound, hitSound2]
+function playStandSound () {
+  if (standSound && standSound.readyToPlay) {
+    standSound.currentTime = 0
+    standSound.play()
+  }
+}
+var standSound = new Audio()
+standSound.src = 'audio/stay.mp3'
+standSound.oncanplaythrough = function () {
+  standSound.readyToPlay = true
+}
+function playIntroSound () {
+  if (introSound && introSound.readyToPlay) {
+    introSound.currentTime = 0
+    introSound.play()
+  }
+}
+var introSound = new Audio()
+introSound.src = 'audio/intro.mp3'
+introSound.oncanplaythrough = function () {
+  introSound.readyToPlay = true
+}
+
+window.addEventListener('keypress', (e) => {
+  let char = e.char || e.charCode || e.which
+  if (char === 32) {
+    playHitSound()
+    console.log('hit me')
+  }
+})
+window.addEventListener('keypress', (e) => {
+  let char = e.char || e.charCode || e.which
+  if (char === 13) {
+    playStandSound()
+    console.log('stand')
+  }
+})
 /////////////////////////////////////////////////////////
 //==DECK================DECK=====================DECK==//
 /////////////////////////////////////////////////////////
