@@ -1,13 +1,15 @@
 'use strict';
+
 /////////////////////////////////////////////////////////
 //==SOUND FX===========SOUND FX================SOUND FX//
 /////////////////////////////////////////////////////////
-var soundToPlay = 0
+
+var soundToPlay = 0;
 function playHitSound () {
-  var sounds = hitSounds[soundToPlay % hitSounds.length]
-  sounds.currentTime = 0
-  sounds.play()
-  soundToPlay += 1
+  var sounds = hitSounds[soundToPlay % hitSounds.length];
+  sounds.currentTime = 0;
+  sounds.play();
+  soundToPlay += 1;
 }
 
 var hitSound = new Audio()
@@ -35,26 +37,30 @@ var hitSounds = [hitSound, hitSound2, hitSound3, hitSound4]
 
 function playStandSound () {
   if (standSound && standSound.readyToPlay) {
-    standSound.currentTime = 0
-    standSound.play()
+    standSound.currentTime = 0;
+    standSound.play();
   }
 }
+
 var standSound = new Audio()
 standSound.src = 'audio/stay2.mp3'
+
 standSound.oncanplaythrough = function () {
-  standSound.readyToPlay = true
-}
+  standSound.readyToPlay = true;
+};
+
 function playIntroSound () {
   if (introSound && introSound.readyToPlay) {
-    introSound.currentTime = 0
-    introSound.play()
+    introSound.currentTime = 0;
+    introSound.play();
   }
 }
-var introSound = new Audio()
-introSound.src = 'audio/intro.mp3'
+
+var introSound = new Audio();
+introSound.src = 'audio/intro.mp3';
 introSound.oncanplaythrough = function () {
-  introSound.readyToPlay = true
-}
+  introSound.readyToPlay = true;
+};
 
 /////////////////////////////////////////////////////////
 //==DECK================DECK=====================DECK==//
@@ -128,23 +134,49 @@ function Player(ID, dealer) {
 
 Player.prototype.hit = function () {
   this.hand.add(deck.deal());
+
   if (this.hand.cards.length>2 && !this.dealer){
     newStatus(this.ID+' hit');
     newStatus(this.hand.score);
   }
-  // call something to append new card here.
+
   var image = document.createElement('img');
-  image.src = this.hand.cards[this.hand.cards.length -1][0].src;
+  // Dealer card flip or normal image
+  if(this.ID === 'Dealer' && this.hand.cards.length === 1){
+    image.src = './img/back.png';
+  } else {
+    image.src = this.hand.cards[this.hand.cards.length -1][0].src;
+  }
   image.classList.add('cards');
 
   // New HTML Rendering
   if(this.ID === 'Dealer') {
+    // Draw cards in dealer's area
     var destination = document.getElementById('player0');
     destination.appendChild(image);
-  } else if (this.order === 1) {
+  } else if (this.order === 1 && this.hand.cards.length <= 6) {
+    // Draw cards in Player 1 area at full-size
     var destination = document.getElementById('player1Cards');
     destination.appendChild(image);
+  } else if (this.order === 1 && this.hand.cards.length > 6) {
+    // Draw cards in Player 1 area at half-size
+    var destination = document.getElementById('player1Cards');
+    // Clear all player 1's cards
+    while(destination.firstChild){
+      destination.removeChild(destination.firstChild);
+    }
+    // Redraw previous cards
+    for (var i = 0; i < this.hand.cards.length - 1; i++){
+      var replaceCard = document.createElement('img');
+      replaceCard.src = this.hand.cards[i][0].src;
+      replaceCard.style.height = '60px';
+      destination.appendChild(replaceCard);
+    }
+    // Add the new card
+    image.style.height = '60px';
+    destination.appendChild(image);
   } else {
+    // Draw cards in other Player's areas at half-size
     image.style.height = '60px';
     var location = 'player' + this.order + 'Cards';
     var destination = document.getElementById(location);
@@ -216,10 +248,6 @@ var log = document.getElementById('log');
 var ulEl = document.createElement('ul');
 var gameCounter = 0;
 
-
-
-
-// Clears players' cards from their divs in prep for moving them around the table
 var clearPlayerCards = function () {
   for (var i = 0; i < 6; i++){
     var id = 'player' + (i + 1) + 'Cards';
@@ -230,7 +258,6 @@ var clearPlayerCards = function () {
   }
 };
 
-// Inserts players' cards and name into their new divs between turns
 var movePlayerCards = function() {
   // Clear previous cards
   clearPlayerCards();
@@ -255,7 +282,6 @@ var movePlayerCards = function() {
   }
 };
 
-// Clears the dealer's cards from its div between games
 var clearDealerCards = function() {
   var target = document.getElementById('player0');
   while(target.firstChild){
@@ -264,10 +290,9 @@ var clearDealerCards = function() {
 };
 
 var newStatus = function(string){
-  var ulEll = document.getElementById("game" + gameCounter);
+  var ulEll = document.getElementById('game' + gameCounter);
   var liEl = document.createElement('li');
   liEl.textContent=string;
-  console.log(ulEll);
   ulEll.appendChild(liEl);
   updateScroll();
 };
@@ -302,6 +327,15 @@ var setOrder = function() {
     } else if (players[i].order > 0) {
       players[i].order -= 1;
     }
+  }
+  movePlayerCards();
+};
+
+var resetOrder = function() {
+  console.log("reseting players")
+  for (var i = 0; i < players.length -1; i++){
+    players[i].order = i + 1;
+    console.log(players[i].ID + " is now " + players[i].order);
   }
   movePlayerCards();
 };
@@ -348,11 +382,10 @@ var newRound = function (){
   deck.build();
   deck.shuffle();
   var ulEl=document.createElement('ul');
-  ulEl.setAttribute("id", "game" + gameCounter);
+  ulEl.setAttribute('id', 'game' + gameCounter);
   log.appendChild(ulEl);
 
   for (var i in players){
-    console.log('clearing player ' + players[i].ID);
     players[i].newGame();
   }
 };
@@ -368,6 +401,12 @@ var dealcards = function(){
 
 var nextPlayer = function(){
   current++;
+  // Dealer card flip check
+  if(players[current].ID === 'Dealer'){
+    var target = document.getElementById('player0');
+    target.firstChild.src = players[current].hand.cards[0][0].src;
+  }
+
   newStatus(players[current].ID+'s turn, current score: '+players[current].hand.score);
   if(players[current].dealer){//if the current player is the dealer
     dealerTurn();
@@ -462,8 +501,6 @@ var nextGame = function(event) {
   button2.style.display = 'none';
   var option = event.target.id;
   if (option === 'quit'){
-    // This needs to be checked
-    console.log('quitting game');
     window.location.href = 'home.html';
     clearPlayerCards();
     clearDealerCards();
@@ -471,6 +508,7 @@ var nextGame = function(event) {
   } else if (option === 'continue') {
     console.log('resetting game');
     playIntroSound()
+    resetOrder();
     clearPlayerCards();
     clearDealerCards();
     gamePlay();
