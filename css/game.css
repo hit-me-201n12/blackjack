@@ -1,0 +1,74 @@
+@import url('reset.css');
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+* {
+    font-family: "Press Start 2P", sans-serif;
+    color: white;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+div {
+    /* border: 1px solid black; */
+    box-sizing: border-box;
+}
+
+#table {
+    height: 600px;
+    width: 975px;
+    margin: 30px auto;
+    background-color: rgb(47, 109, 47);
+}
+
+
+
+#leftSide {
+    float: left;
+    height: 100%;
+    width: 720px;
+}
+
+#rightSide {
+    float: left;
+    height: 100%;
+    width: 240px;
+}
+
+#deck {
+    height: 120px;
+    width: 75px;
+    margin: 10px 0 0 10px;
+    background-image: url(../img/back.png);
+}
+
+#dealer {
+    margin: 30px auto 20px auto;
+    height: 180px;
+    width: 520px;
+}
+
+#playing{
+    margin: auto;
+    height: 180px;
+    width: 520px;
+}
+
+#players {
+    height: 400px;
+    width: 100%;
+    margin: 10px 10px 0 0;
+    overflow-y: scroll;
+}
+
+#console {
+    height: 180px;
+    width: 100%;
+    margin-right: 10px;
+    overflow-y: scroll; 
+}
+
+.onDeck {
+    padding: 3px;
+}

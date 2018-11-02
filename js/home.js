@@ -6,6 +6,10 @@
 
 // Global Vars
 var players = [];
+var numPlayers = 0;
+var gameForm = document.getElementById('newGameForm');
+var newEmForm = document.getElementById('emForm');
+var numEvent;
 // previous players - calls local storage, tries to see if another player has previous data
 
 /*
@@ -21,13 +25,11 @@ increment submits
 // instansitate in an array in home.js, stringifies
 // save, put in local-storage
 // local-storage, destringify
-var gameForm = document.getElementById('newGameForm');
-var newEmForm = document.getElementById('emForm');
 
 var handleNewGame = function(startEvent) {
   startEvent.preventDefault();
   startEvent.stopPropagation();
-  var numPlayers = startEvent.target.numPlayers.value;
+  numPlayers = startEvent.target.numPlayers.value;
   console.log(numPlayers);
 
   for (var i = 0; i < numPlayers; i++) {
@@ -37,28 +39,33 @@ var handleNewGame = function(startEvent) {
     newEmForm.appendChild(nameEl);
     nameEl.setAttribute('name','player'+(i+1));
     nameEl.setAttribute('type','text');
-    // console.log(startEvent.target['player1'].value);
-    // var playerName = startEvent.target['player'+(i+1)].value;
-    // players.push(new Player(playerName));
   }
+  
+  gameForm.remove();
+
   var buttonEl = document.createElement('button');
+  var bText = document.createTextNode('Buy In!');
+  buttonEl.setAttribute('class','button');
   buttonEl.setAttribute('type','submit');
   newEmForm.appendChild(buttonEl);
-  // console.log(players);
-  // save();
+  buttonEl.appendChild(bText);
+
 };
 
 var handleNumPlayers = function(numEvent) {
+	// second sub-form to handle name fields
+
   numEvent.preventDefault();
   numEvent.stopPropagation();
 
-//   window.open('game.html', '_self');
+  for (var i=0; i<numPlayers; i++){ // iterate through the names, take field values, and push into players array 
+		var nameGets = numEvent.target['player',i].value;
+    players.push(nameGets);
+  }
+  console.log(players);
+	save();
+  window.open('game.html', '_self');
 };
-/* EOD 10/29
--figure out how to pull player at i
-	-pull it by element name?
-*/
-
 
 var save = function() {
   localStorage.setItem('players', JSON.stringify(players));
@@ -66,5 +73,6 @@ var save = function() {
 
 var gameLoad = JSON.parse(localStorage.getItem('players'));
 
+// Event Listeners
 gameForm.addEventListener('submit', handleNewGame);
 newEmForm.addEventListener('submit', handleNumPlayers);

@@ -1,10 +1,5 @@
 'use strict';
 
-// Purpose:
-// Create Cards
-// Create Deck
-// Deal Cards
-
 function Card (value, suit, points) { //-- card object - also has a reference to source file
   // Gameplay-related properties
   this.value = value;
@@ -26,9 +21,6 @@ Card.prototype.points = function(){
   return(this.points);
 };
 
-//Card objects
-
-
 function Deck () { //-- make a deck of 52 cards
   this.inPlay = [];
 }
@@ -49,7 +41,7 @@ Deck.prototype.deal = function () { //-- deals cards  ############## connor chan
 
 Deck.prototype.build = function() {//-- uses card constructor to build new deck
   var suit = ['diamonds', 'clubs', 'hearts', 'spades'];
-  var value = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace'];
+  var value = ['2','3','4','5','6','7','8','9','10','jack','queen','king','ace'];
   var points = [2,3,4,5,6,7,8,9,10,10,10,10,11]
 
   for (var i = 0; i<suit.length; i++){
@@ -59,5 +51,3 @@ Deck.prototype.build = function() {//-- uses card constructor to build new deck
     }
   }
 };
-
-// function calls
