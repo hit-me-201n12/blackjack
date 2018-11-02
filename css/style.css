@@ -94,9 +94,8 @@ input, option {
 	font-family: 'Press start 2P', monospace, sans-serif; 
 }
 .button{
-background-color: #00ff00;
-border: none;
-padding: 10px;
+padding: 5px; 
+background-color: rgb(68, 184, 68);
 font-family: 'Press start 2P', monospace, sans-serif; 
 }
 
