@@ -156,12 +156,15 @@ Player.prototype.hit = function () {
 
   // New HTML Rendering
   if(this.ID === 'Dealer') {
+    // Draw cards in dealer's area
     var destination = document.getElementById('player0');
     destination.appendChild(image);
   } else if (this.order === 1 && this.hand.cards.length <= 6) {
+    // Draw cards in Player 1 area at full-size
     var destination = document.getElementById('player1Cards');
     destination.appendChild(image);
   } else if (this.order === 1 && this.hand.cards.length > 6) {
+    // Draw cards in Player 1 area at half-size
     var destination = document.getElementById('player1Cards');
     // Clear all player 1's cards
     while(destination.firstChild){
@@ -178,6 +181,7 @@ Player.prototype.hit = function () {
     image.style.height = '60px';
     destination.appendChild(image);
   } else {
+    // Draw cards in other Player's areas at half-size
     image.style.height = '60px';
     var location = 'player' + this.order + 'Cards';
     var destination = document.getElementById(location);
@@ -328,6 +332,15 @@ var setOrder = function() {
     } else if (players[i].order > 0) {
       players[i].order -= 1;
     }
+  }
+  movePlayerCards();
+};
+
+var resetOrder = function() {
+  console.log("reseting players")
+  for (var i = 0; i < players.length -1; i++){
+    players[i].order = i + 1;
+    console.log(players[i].ID + " is now " + players[i].order);
   }
   movePlayerCards();
 };
@@ -496,6 +509,7 @@ var nextGame = function(event) {
     clearDealerCards();
     gamePlay();
   } else if (option === 'continue') {
+    resetOrder();
     clearPlayerCards();
     clearDealerCards();
     gamePlay();
