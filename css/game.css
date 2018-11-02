@@ -78,15 +78,15 @@ div {
 #log {
     overflow-y: scroll;
     float:left;
+    height:150px;
 }
 
-#statusUl {
+#log ul {
     list-style: none;
-    height:150px;
     font-size: 10px;
     font-weight: 50;
     color:yellow;
-
+    margin-top: 12px;
 }
 
 .onDeck {
@@ -99,4 +99,8 @@ div {
     margin: 15px 0 0 180px;
     padding: 5px; 
     background-color: rgb(68, 184, 68);
+}
+
+ul {
+    margin-top: 10px;
 }

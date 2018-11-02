@@ -123,6 +123,7 @@ Player.prototype.stay = function() {
 Player.prototype.newGame = function(){
   console.log('creating new hand for ' + this.ID);
   this.hand=new Hand;
+  this.playing = true;
 };
 
 function Hand() {
@@ -155,7 +156,12 @@ Hand.prototype.add = function(card){
 //==RENDER=============RENDER==================RENDER==//
 /////////////////////////////////////////////////////////
 
-var ulLi=document.getElementById('statusUl');
+var log = document.getElementById('log');
+var ulEl = document.createElement('ul');
+var gameCounter = 0;
+
+
+
 
 // Clears players' cards from their divs in prep for moving them around the table
 var clearPlayerCards = function () {
@@ -202,9 +208,11 @@ var clearDealerCards = function() {
 };
 
 var newStatus = function(string){
+  var ulEll = document.getElementById("game" + gameCounter);
   var liEl = document.createElement('li');
   liEl.textContent=string;
-  statusUl.appendChild(liEl);
+  console.log(ulEll);
+  ulEll.appendChild(liEl);
   updateScroll();
 };
 
@@ -276,9 +284,14 @@ var gamePlay = function() {
 };
 
 var newRound = function (){
+  gameCounter++;
   deck = new Deck();
   deck.build();
   deck.shuffle();
+  var ulEl=document.createElement('ul');
+  ulEl.setAttribute("id", "game" + gameCounter);
+  log.appendChild(ulEl);
+
   for (var i in players){
     console.log('clearing player ' + players[i].ID);
     players[i].newGame();
@@ -369,6 +382,7 @@ var checkScores = function(){
     if (current>-1){
       checkScores();
     }
+    newStatus("");
   }
   // Display the buttons
   var button1 = document.getElementById('continue');
