@@ -68,7 +68,7 @@ function Player(ID, dealer) {
     var target = document.getElementById('player' + this.order + 'Name');
     target.textContent = this.ID;
   }
-};
+}
 
 Player.prototype.hit = function () {
   this.hand.add(deck.deal());
@@ -79,7 +79,7 @@ Player.prototype.hit = function () {
   // call something to append new card here.
   var image = document.createElement('img');
   image.src = this.hand.cards[this.hand.cards.length -1][0].src;
-  image.classList.add("cards");
+  image.classList.add('cards');
 
   // New HTML Rendering
   if(this.ID === 'Dealer') {
@@ -89,8 +89,8 @@ Player.prototype.hit = function () {
     var destination = document.getElementById('player1Cards');
     destination.appendChild(image);
   } else {
-    image.style.height = "60px";
-    var location = "player" + this.order + "Cards";
+    image.style.height = '60px';
+    var location = 'player' + this.order + 'Cards';
     var destination = document.getElementById(location);
     destination.appendChild(image);
   }
@@ -104,12 +104,9 @@ Player.prototype.hit = function () {
     newStatus(this.ID+' drew 21!');
     this.playing=false;
     this.blackJack=true;
-    setOrder();
-  }
-  if (this.hand.score===21){
-    if (this.hand.cards.length>2){
-      newStatus(this.ID+' scored 21!');
-    }
+    // setOrder();
+  } else if (this.hand.score===21){
+    newStatus(this.ID+' scored 21!');
     this.playing===false;
     setOrder();
   }
@@ -163,7 +160,7 @@ var ulLi=document.getElementById('statusUl');
 // Clears players' cards from their divs in prep for moving them around the table
 var clearPlayerCards = function () {
   for (var i = 0; i < 6; i++){
-    var id = "player" + (i + 1) + "Cards";
+    var id = 'player' + (i + 1) + 'Cards';
     var target = document.getElementById(id);
     while (target.firstChild){
       target.removeChild(target.firstChild);
@@ -181,15 +178,15 @@ var movePlayerCards = function() {
     var nameTarget = document.getElementById('player' + players[i].order + 'Name');
     nameTarget.textContent = players[i].ID;
     // Cards
-    var target = document.getElementById("player" + players[i].order + "Cards");
+    var target = document.getElementById('player' + players[i].order + 'Cards');
     for(var j = 0; j < players[i].hand.cards.length; j++){
       var image = document.createElement('img');
-      image.classList.add("cards");
+      image.classList.add('cards');
       image.src = players[i].hand.cards[j][0].src;
       // Scale down cards for players in the sidebar
       if (players[i].order > 1) {
-        image.style.height = "60px";
-        image.style.width = "37.5px"; 
+        image.style.height = '60px';
+        image.style.width = '37.5px';
       }
       target.appendChild(image);
     }
@@ -209,27 +206,19 @@ var newStatus = function(string){
   liEl.textContent=string;
   statusUl.appendChild(liEl);
   updateScroll();
-}
+};
 
 function updateScroll(){
-  var element = document.getElementById("log");
+  var element = document.getElementById('log');
   element.scrollTop = element.scrollHeight;
 }
-
-
-
-
-
-
-
-
 
 /////////////////////////////////////////////////////////
 //==TABLE===============TABLE===================TABLE==//
 /////////////////////////////////////////////////////////
 
 var players = [];
-players.push(new Player('connor', false)); 
+players.push(new Player('connor', false));
 players.push(new Player('michael', false));
 players.push(new Player('skyler', false));
 
@@ -254,27 +243,27 @@ var setOrder = function() {
 
 var eventhandler = function(press) { //this is our event handler for hitting and staying.
   if (current>-1){
-  if (!players[current].dealer){//condition, only use keyboard for hit and stay if not the dealer
-    if (players[current].playing){//condition, only hit or stay if the current player is still playing
-      let key = press.char || press.charCode || press.which;
-      if (key === 32) { //if the user presses space:
-        players[current].hit();//player is dealt a card
-        // Check to see if player has busted or blackJack to set 'playing' to false
-        if(players[current].blackJack){
-          players[current].playing = false;
-          nextPlayer();
-        } else if(players[current].busted) {//if the player busts, they are also no longer playing
-          players[current].playing = false;
+    if (!players[current].dealer){//condition, only use keyboard for hit and stay if not the dealer
+      if (players[current].playing){//condition, only hit or stay if the current player is still playing
+        let key = press.char || press.charCode || press.which;
+        if (key === 32) { //if the user presses space:
+          players[current].hit();//player is dealt a card
+          // Check to see if player has busted or blackJack to set 'playing' to false
+          if(players[current].blackJack){
+            players[current].playing = false;
+            nextPlayer();
+          } else if(players[current].busted) {//if the player busts, they are also no longer playing
+            players[current].playing = false;
+            nextPlayer();
+          }
+        } else if (key === 13) {// if user presses enter
+          // function call back playerStand()
+          players[current].stay();
           nextPlayer();
         }
-      } else if (key === 13) {// if user presses enter
-      // function call back playerStand()
-        players[current].stay();
-        nextPlayer();
       }
     }
   }
-}
 };
 
 var gamePlay = function() {
@@ -322,32 +311,37 @@ var nextPlayer = function(){
 
 var dealerTurn = function(){
   window.removeEventListener('keypress', window);
-    var dPlay=true;
-    while(dPlay===true){
-      if(players[current].hand.score<17){
-        newStatus('The dealer hit at '+players[current].hand.score);
-        players[current].hit();
-      }else if (players[current].hand.score === 17 && players[current].hand.aces>0){
-        newStatus('The dealer hit with a soft 17');
-        players[current].hit;
-      }else if(players[current].hand.score===17){
-        if (!player[current.hand.bust]){
+  var dPlay=true;
+  while(dPlay===true){
+    if(players[current].hand.score<17){
+      newStatus('The dealer hit at '+players[current].hand.score);
+      players[current].hit();
+    }else if (players[current].hand.score === 17 && players[current].hand.aces>0){
+      newStatus('The dealer hit with a soft 17');
+      players[current].hit;
+    }//else if(players[current].hand.score===17){
+    //   newStatus('The dealer stayed at '+players[current].hand.score);
+    //   players[current].stay;
+    //   dPlay=false;
+    //   players[current].playing = false;
+    //   checkScores();
+    //   break;
+    else{
+      if (!players[current].hand.bust){
         newStatus('The dealer stayed at '+players[current].hand.score);
-        }
-        players[current].stay;
-        dPlay=false;
+        dPlay = false;
+        players[current].playing = false;
+        checkScores();
         break;
-      }else{
-        if (!players[current].hand.bust){
-          newStatus('The dealer stayed at '+players[current].hand.score);
-          }
+      } else {
         players[current].stay;
         dPlay=false;
+        players[current].playing = false;
+        checkScores();
         break;
       }
     }
-    current--;
-    checkScores();
+  }
 };
 
 var checkScores = function(){
@@ -415,9 +409,9 @@ gameControls.addEventListener('click', nextGame);
 // pop up function
 var popUpEl = document.getElementById('popUpRules');
 popUpEl.addEventListener('click', (e) => {
-  var popup = document.getElementById('popUp')
-  popup.classList.toggle('appear')
-})
+  var popup = document.getElementById('popUp');
+  popup.classList.toggle('appear');
+});
 // call classList.toggle DOM method on popup element. This DOM method creates a class with the name of the string value passed as an argument. In the CSS, a selector named #popUpRules .appear exists already. By creating the class 'appear', it activates the CSS block that styles the .appear class. One of the properties is visibility: visible. This event handler takes the element in its existing state of visibility: hidden to the new state of visibility: visible. With a z-index, it appears on top of other elements.
 
 // function calls
