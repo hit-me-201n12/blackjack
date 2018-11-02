@@ -59,8 +59,8 @@ var handleNumPlayers = function(numEvent) {
   numEvent.stopPropagation();
 
   for (var i=0; i<numPlayers; i++){ // iterate through the names, take field values, and push into players array 
-		var nameGets = numEvent.target['player',i].value;
-    players.push(nameGets);
+    var nameGets = numEvent.target['player',i].value;
+    players.push(new Player(nameGets, false));
   }
   console.log(players);
 	save();

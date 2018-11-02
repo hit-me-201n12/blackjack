@@ -230,7 +230,8 @@ players.push(new Player('connor', false));
 players.push(new Player('michael', false));
 players.push(new Player('skyler', false));
 
-// var players = JSON.parse(localStorage.getItem('players')); // USE THIS WHEN LIVE
+// USE THIS WHEN LIVE
+// var players = JSON.parse(localStorage.getItem('players'));
 
 var current = -1;
 //create a dealer and push him to position 0 in players
@@ -382,7 +383,7 @@ var checkScores = function(){
     if (current>-1){
       checkScores();
     }
-    newStatus("");
+    localStorage.setItem('players', JSON.stringify(players));
   }
   // Display the buttons
   var button1 = document.getElementById('continue');
