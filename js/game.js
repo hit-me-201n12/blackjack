@@ -9,18 +9,30 @@ function playHitSound () {
   sounds.play()
   soundToPlay += 1
 }
+
 var hitSound = new Audio()
-hitSound.src = 'audio/hit 1.mp3'
+hitSound.src = 'audio/knock1.mp3'
 hitSound.oncanplaythrough = function () {
   hitSound.readyToPlay = true
 }
 var hitSound2 = new Audio()
-hitSound2.src = 'audio/hit 2.mp3'
+hitSound2.src = 'audio/knock2.mp3'
 hitSound2.oncanplaythrough = function () {
   hitSound2.readyToPlay = true
 }
+var hitSound3 = new Audio()
+hitSound3.src = 'audio/knock3.mp3'
+hitSound3.oncanplaythrough = function () {
+  hitSound3.readyToPlay = true
+}
+var hitSound4 = new Audio()
+hitSound4.src = 'audio/knock4.mp3'
+hitSound4.oncanplaythrough = function () {
+  hitSound4.readyToPlay = true
+}
 
-var hitSounds = [hitSound, hitSound2]
+var hitSounds = [hitSound, hitSound2, hitSound3, hitSound4]
+
 function playStandSound () {
   if (standSound && standSound.readyToPlay) {
     standSound.currentTime = 0
@@ -28,7 +40,7 @@ function playStandSound () {
   }
 }
 var standSound = new Audio()
-standSound.src = 'audio/stay.mp3'
+standSound.src = 'audio/stay2.mp3'
 standSound.oncanplaythrough = function () {
   standSound.readyToPlay = true
 }
@@ -44,20 +56,6 @@ introSound.oncanplaythrough = function () {
   introSound.readyToPlay = true
 }
 
-window.addEventListener('keypress', (e) => {
-  let char = e.char || e.charCode || e.which
-  if (char === 32) {
-    playHitSound()
-    console.log('hit me')
-  }
-})
-window.addEventListener('keypress', (e) => {
-  let char = e.char || e.charCode || e.which
-  if (char === 13) {
-    playStandSound()
-    console.log('stand')
-  }
-})
 /////////////////////////////////////////////////////////
 //==DECK================DECK=====================DECK==//
 /////////////////////////////////////////////////////////
@@ -314,6 +312,7 @@ var eventhandler = function(press) { //this is our event handler for hitting and
       if (players[current].playing){//condition, only hit or stay if the current player is still playing
         let key = press.char || press.charCode || press.which;
         if (key === 32) { //if the user presses space:
+          playHitSound()
           players[current].hit();//player is dealt a card
           // Check to see if player has busted or blackJack to set 'playing' to false
           if(players[current].blackJack){
@@ -325,6 +324,7 @@ var eventhandler = function(press) { //this is our event handler for hitting and
           }
         } else if (key === 13) {// if user presses enter
           // function call back playerStand()
+          playStandSound()
           players[current].stay();
           nextPlayer();
         }
@@ -470,6 +470,7 @@ var nextGame = function(event) {
     gamePlay();
   } else if (option === 'continue') {
     console.log('resetting game');
+    playIntroSound()
     clearPlayerCards();
     clearDealerCards();
     gamePlay();
@@ -477,7 +478,7 @@ var nextGame = function(event) {
 };
 
 var gameControls = document.getElementById('gameControls');
-gameControls.addEventListener('click', nextGame);
+gameControls.addEventListener('click', nextGame)
 
 // pop up function
 var popUpEl = document.getElementById('popUpRules');
@@ -485,7 +486,6 @@ popUpEl.addEventListener('click', (e) => {
   var popup = document.getElementById('popUp');
   popup.classList.toggle('appear');
 });
-// call classList.toggle DOM method on popup element. This DOM method creates a class with the name of the string value passed as an argument. In the CSS, a selector named #popUpRules .appear exists already. By creating the class 'appear', it activates the CSS block that styles the .appear class. One of the properties is visibility: visible. This event handler takes the element in its existing state of visibility: hidden to the new state of visibility: visible. With a z-index, it appears on top of other elements.
-
 // function calls
 testGame();
+
