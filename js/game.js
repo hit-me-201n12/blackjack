@@ -158,8 +158,24 @@ Player.prototype.hit = function () {
   if(this.ID === 'Dealer') {
     var destination = document.getElementById('player0');
     destination.appendChild(image);
-  } else if (this.order === 1) {
+  } else if (this.order === 1 && this.hand.cards.length <= 6) {
     var destination = document.getElementById('player1Cards');
+    destination.appendChild(image);
+  } else if (this.order === 1 && this.hand.cards.length > 6) {
+    var destination = document.getElementById('player1Cards');
+    // Clear all player 1's cards
+    while(destination.firstChild){
+      destination.removeChild(destination.firstChild);
+    }
+    // Redraw previous cards
+    for (var i = 0; i < this.hand.cards.length - 1; i++){
+      var replaceCard = document.createElement('img');
+      replaceCard.src = this.hand.cards[i][0].src;
+      replaceCard.style.height = '60px';
+      destination.appendChild(replaceCard);
+    }
+    // Add the new card
+    image.style.height = '60px';
     destination.appendChild(image);
   } else {
     image.style.height = '60px';
@@ -278,7 +294,6 @@ var newStatus = function(string){
   var ulEll = document.getElementById('game' + gameCounter);
   var liEl = document.createElement('li');
   liEl.textContent=string;
-  console.log(ulEll);
   ulEll.appendChild(liEl);
   updateScroll();
 };
@@ -361,7 +376,6 @@ var newRound = function (){
   log.appendChild(ulEl);
 
   for (var i in players){
-    console.log('clearing player ' + players[i].ID);
     players[i].newGame();
   }
 };
@@ -477,14 +491,11 @@ var nextGame = function(event) {
   button2.style.display = 'none';
   var option = event.target.id;
   if (option === 'quit'){
-    // This needs to be checked
-    console.log('quitting game');
     window.location.href = 'home.html';
     clearPlayerCards();
     clearDealerCards();
     gamePlay();
   } else if (option === 'continue') {
-    console.log('resetting game');
     clearPlayerCards();
     clearDealerCards();
     gamePlay();
