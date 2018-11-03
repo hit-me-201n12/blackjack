@@ -74,15 +74,10 @@ window.addEventListener('keypress', (e) => {
 function Card (value, suit, points) {
   this.value = value;
   this.suit = suit;
-  this.face = 'down';
   this.src = './img/' + value + '-' + suit + '.png';
   this.points = points;
   this.name = value+' of '+suit;
 }
-
-Card.prototype.points = function(){
-  return(this.points);
-};
 
 function Deck () {
   this.inPlay = [];
