@@ -25,6 +25,16 @@
 <a id="objects"></a>
 ## Objects
 
+**Audio** The game contains 6 sounds, which are each instantiated on their own line. variables are declared for each sound object, and then a src property is assigned. the oncanplaythrough event is a simple check for an audio file's ability to render. If oncanplaythrough resolves to true, the audio file can be played without load errors. 
+
+**playHitSound()** this function calls the play() method on the audio object[i]stored in the hitSounds array. var sounds holds reference to the object in the array, with a conditional expression that limits soundToPlay from incrementing larger than the number of objects held in the array. this function is called in the eventhandler.
+
+**playIntroSound()** plays intro hook upon re-starting the game
+
+**playStandSound()** plays stand sound, called in eventhandler.
+
+
+
 <a id="card"></a>
 ### **Card**
 The Card constructor creates a single Card object. The Card constructor is called multiple times by a Deck which immediately stores the Card in that Deck.
