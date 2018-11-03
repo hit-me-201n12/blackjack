@@ -204,6 +204,7 @@ Player.prototype.checkHand = function() {
     newStatus(this.ID+' scored 21!');
     this.playing = false;
     setOrder();
+    nextPlayer();
   }
 };
 
