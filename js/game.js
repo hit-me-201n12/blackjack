@@ -190,7 +190,7 @@ Player.prototype.hit = function () {
     this.playing=false;
     this.blackJack=true;
     // setOrder();
-  } else if (this.hand.score===21 && this){
+  } else if (this.hand.score===21 && !this.dealer){
     newStatus(this.ID+' scored 21!');
     this.playing===false;
     //setOrder();
