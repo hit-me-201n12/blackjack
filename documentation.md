@@ -19,11 +19,11 @@
     - [Rendering](#rendering)
     - [Game Play](#gamePlay)
     - [Sound FX](#soundFX)
-- [Files](#files)
+    - [Form](#form)
 
 <a id="overview"></a>
 ## Overview
-*This is a spot where we can either place a write-up or an image describing the general flow of our code at the object and function level. Google Drive has a Google Drawing feature that is similar to LucidChart that is free to use if we want to recreate/update Michael's original flowchart.*
+Hit Me
 
 <a id="objects"></a>
 ## Objects
@@ -152,12 +152,23 @@ The Deck constructor creates a Deck object that can create, store, shuffle, and 
 - This function handles the unique rules/logic that a dealer has to play by in a blackjack game. This includes hitting if your score is below 17, hitting on a soft 17, and staying on anything over 17.
 
 #### checkScores():
+- This function compares all Players scores against the dealer to determine the winner.
+
+#### nextGame():
+- This function displays two buttons at the bottom of the table when the round has completed that allows a user to determine whether to start another round with the same Players, or quite to the home page. 
 
 
 <a id="soundFX"></a>
 ### Sound FX
 
+<a id="form"></a>
+### Form
 
-<a id="files"></a>
-## Files
-*This might be a good spot to somehow detail the files that we have and how they're linked together (HTML, CSS, JS, .PNGs)*
+#### handleNewGame():
+- This is a handler function for the initial form on the home page. It receives user input that specifies the number of players that will be playing the game. It then removes the first form and replaces it with a second form with enough input elements to receive names for each player. This transition is achieved with DOM manipulation.
+
+#### handleNumPlayers();
+- This is a handler function for the second form. It takes in the player names, and stores them in an array that is saved to local storage. The saved information in local storage is utilized by another section of our JavaScript to instantiate the Player objects. It then loads game.html for the user so they can begin the game.
+
+#### save():
+- This function saves the work of handleNumPlayers() into local storage to be accessed later.
