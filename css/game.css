@@ -4,6 +4,7 @@
 * {
     font-family: "Press Start 2P", sans-serif;
     color: white;
+    /* border: 1px solid black; */
 }
 
 h2 {
@@ -15,7 +16,13 @@ div {
     box-sizing: border-box;
 }
 
+#head {
+    float: top;
+}
+
+
 #table {
+    float: top;
     height: 600px;
     width: 975px;
     margin: 30px auto;
@@ -66,9 +73,34 @@ div {
     height: 180px;
     width: 100%;
     margin-right: 10px;
-    overflow-y: scroll; 
+}
+
+#log {
+    overflow-y: scroll;
+    float:left;
+    height:150px;
+}
+
+#log ul {
+    list-style: none;
+    font-size: 10px;
+    font-weight: 50;
+    color:yellow;
+    margin-top: 12px;
 }
 
 .onDeck {
     padding: 3px;
+}
+
+.gameControls {
+    display: none;
+    float:left;
+    margin: 15px 0 0 180px;
+    padding: 5px; 
+    background-color: rgb(68, 184, 68);
+}
+
+ul {
+    margin-top: 10px;
 }
