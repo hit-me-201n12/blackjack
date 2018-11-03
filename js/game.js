@@ -461,12 +461,12 @@ var checkScores = function(){
       var dealerbust= (players[players.length-1].busted);
       var dealerScore = players[players.length-1].hand.score;
       if (!players[current].busted){
-        if (players[current].hand.score>dealerScore||dealerbust){
-          players[current].wins++;
-          newStatus(players[current].ID+' won their hand.');
-        }else if (players[current].hand.score===dealerScore){
+        if (players[current].hand.score==dealerScore){
           players[current].wins+=0;
           newStatus(players[current].ID+' washed.');
+        }else if (players[current].hand.score>dealerScore||dealerbust){
+          players[current].wins++;
+          newStatus(players[current].ID+' won their hand.');
         }else{
           players[current].wins--;
           newStatus(players[current].ID+' lost their hand');
