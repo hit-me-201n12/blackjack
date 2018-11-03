@@ -18,7 +18,7 @@
 - [Functions](#functions)
     - [Rendering](#rendering)
     - [Game Play](#gamePlay)
-    - [Sound FX](#soundFX)
+    - [Audio](#audio)
     - [Form](#form)
 
 <a id="overview"></a>
@@ -27,16 +27,6 @@ Hit Me
 
 <a id="objects"></a>
 ## Objects
-
-**Audio** The game contains 6 sounds, which are each instantiated on their own line. variables are declared for each sound object, and then a src property is assigned. the oncanplaythrough event is a simple check for an audio file's ability to render. If oncanplaythrough resolves to true, the audio file can be played without load errors. 
-
-**playHitSound()** this function calls the play() method on the audio object[i]stored in the hitSounds array. var sounds holds reference to the object in the array, with a conditional expression that limits soundToPlay from incrementing larger than the number of objects held in the array. this function is called in the eventhandler.
-
-**playIntroSound()** plays intro hook upon re-starting the game
-
-**playStandSound()** plays stand sound, called in eventhandler.
-
-
 
 <a id="card"></a>
 ### **Card**
@@ -93,8 +83,10 @@ The Deck constructor creates a Deck object that can create, store, shuffle, and 
   - Creating an image element for the new Card and assigning it a source for its corresponding .png file
   - Making sure that the dealer's first Card's image element' source is set to 'back.png' to keep it hidden from view of the other players.
   - Determining which ```<div>``` the image element needs to be appended to and if the image needs to be scaled down.
-  - Determining if the Player's Hand has been dealt a blackjack, a score of 21, or busted as a result of adding the new Card.
+  - Determining if the dealers's Hand has been dealt a blackjack, a score of 21, or busted as a result of adding the new Card.
+  - Making a call to checkHand() to see if a Player has scored 21 or busted.
   - Making a call to setOrder() to advance to the next player.
+- **checkHand():** This method performs a check to see if a Player's Hand has busted or reached a score of 21 after the Player has hit. If either of those conditions has been met, the Player's playing property is set to false and the order of players is adjusted.
 - **stay():** This method allows a Player to complete their turn without adding an additional Card to their Hand. It then calls setOrder() to advance to the next player.
 - **newGame():** This method is called at the beginning of a new game/round and replaced the Player's Hand with a new Hand and resets their playing property to 'true'.
 
@@ -168,8 +160,19 @@ The Deck constructor creates a Deck object that can create, store, shuffle, and 
 - This function displays two buttons at the bottom of the table when the round has completed that allows a user to determine whether to start another round with the same Players, or quite to the home page. 
 
 
-<a id="soundFX"></a>
-### Sound FX
+<a id="audio"></a>
+### Audio
+The game contains 6 sounds, which are each instantiated on their own line. variables are declared for each sound object, and then a src property is assigned. the oncanplaythrough event is a simple check for an audio file's ability to render. If oncanplaythrough resolves to true, the audio file can be played without load errors. 
+
+#### playHitSound(): 
+- This function calls the play() method on the audio object[i]stored in the hitSounds array. var sounds holds reference to the object in the array, with a conditional expression that limits soundToPlay from incrementing larger than the number of objects held in the array. this function is called in the eventhandler.
+
+#### playIntroSound(): 
+- This function plays intro hook upon re-starting the game
+
+#### playStandSound(): 
+- This function plays stand sound, called in eventhandler.
+
 
 <a id="form"></a>
 ### Form
