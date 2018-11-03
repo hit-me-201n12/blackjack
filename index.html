@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/style.css"/>
+    <title>Hit-Me! Blackjack</title>
+</head>
+<body>
+    <h1 id = "homeHead">Hit-Me! Blackjack</h1>
+    <main>
+
+    <img id="homePic" src="./img/big-back.png" height="400">
+
+    <fieldset>
+    <form id="newGameForm">
+        <!-- integrate first question to ask how many players, then show that many fields to enter names -->
+
+            <p>
+               <label>How many players am I dealing in?</label>
+               <select id ="numPlayers">
+                 <!-- <option value = "0">zero</option>
+                STRETCH - make this an option to activate a computer-controlled game -->
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                 <option value="5">5</option>
+                 <option value="6">6</option>
+                </select>
+                <button type="submit" class="button">This Many!</button>
+            </p>
+    </form>
+    </fieldset>
+
+    <fieldset id="emptyFormD">
+    <form id="emForm"></form>
+    <button id="hau" class="button" type="button" onclick="window.location.href = 'aboutUs.html';">About Page</button>
+    </fieldset>
+    </main>
+<footer id="disFoot">
+    Final Project for CodeFellows 201n12
+</footer>
+<script src="./js/home.js"></script>
+</body>
+</html>
