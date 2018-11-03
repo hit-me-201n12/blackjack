@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 // document.getElementById('portrait1').height = 110
 // document.getElementById('portrait1').style.margin = '11px 6px 3px 6px'
 // document.getElementById('portrait1').style.position = 'relative'
@@ -19,11 +19,11 @@
 // document.getElementById('portrait4').style.position = 'relative'
 // document.getElementById('portrait4').style.float = 'left'
 //
-var imageItems = document.querySelectorAll('img.profile')
-console.log(imageItems)
+var imageItems = document.querySelectorAll('img.profile');
+console.log(imageItems);
 for (let i = 0; i < imageItems.length; i++) {
-  imageItems[i].height = 110
-  imageItems[i].style.margin = '16px 16px 0px 16px'
-  imageItems[i].style.position = 'relative'
-  imageItems[i].style.float = 'left'
+  imageItems[i].height = 110;
+  imageItems[i].style.margin = '16px 16px 0px 16px';
+  imageItems[i].style.position = 'relative';
+  imageItems[i].style.float = 'left';
 }

@@ -12,28 +12,28 @@ function playHitSound () {
   soundToPlay += 1;
 }
 
-var hitSound = new Audio()
-hitSound.src = 'audio/knock1.mp3'
+var hitSound = new Audio();
+hitSound.src = 'audio/knock1.mp3';
 hitSound.oncanplaythrough = function () {
-  hitSound.readyToPlay = true
-}
-var hitSound2 = new Audio()
-hitSound2.src = 'audio/knock2.mp3'
+  hitSound.readyToPlay = true;
+};
+var hitSound2 = new Audio();
+hitSound2.src = 'audio/knock2.mp3';
 hitSound2.oncanplaythrough = function () {
-  hitSound2.readyToPlay = true
-}
-var hitSound3 = new Audio()
-hitSound3.src = 'audio/knock3.mp3'
+  hitSound2.readyToPlay = true;
+};
+var hitSound3 = new Audio();
+hitSound3.src = 'audio/knock3.mp3';
 hitSound3.oncanplaythrough = function () {
-  hitSound3.readyToPlay = true
-}
-var hitSound4 = new Audio()
-hitSound4.src = 'audio/knock4.mp3'
+  hitSound3.readyToPlay = true;
+};
+var hitSound4 = new Audio();
+hitSound4.src = 'audio/knock4.mp3';
 hitSound4.oncanplaythrough = function () {
-  hitSound4.readyToPlay = true
-}
+  hitSound4.readyToPlay = true;
+};
 
-var hitSounds = [hitSound, hitSound2, hitSound3, hitSound4]
+var hitSounds = [hitSound, hitSound2, hitSound3, hitSound4];
 
 function playStandSound () {
   if (standSound && standSound.readyToPlay) {
@@ -42,8 +42,8 @@ function playStandSound () {
   }
 }
 
-var standSound = new Audio()
-standSound.src = 'audio/stay2.mp3'
+var standSound = new Audio();
+standSound.src = 'audio/stay2.mp3';
 
 standSound.oncanplaythrough = function () {
   standSound.readyToPlay = true;
@@ -69,15 +69,10 @@ introSound.oncanplaythrough = function () {
 function Card (value, suit, points) {
   this.value = value;
   this.suit = suit;
-  this.face = 'down';
   this.src = './img/' + value + '-' + suit + '.png';
   this.points = points;
   this.name = value+' of '+suit;
 }
-
-Card.prototype.points = function(){
-  return(this.points);
-};
 
 function Deck () {
   this.inPlay = [];
@@ -140,14 +135,14 @@ Player.prototype.hit = function () {
   }
   var image = document.createElement('img');
   // Dealer card flip or normal image
-  if(this.ID === 'Dealer' && this.hand.cards.length === 1){
+  if(this.dealer && this.hand.cards.length === 1){
     image.src = './img/back.png';
   } else {
     image.src = this.hand.cards[this.hand.cards.length -1][0].src;
   }
   image.classList.add('cards');
   // New HTML Rendering
-  if(this.ID === 'Dealer') {
+  if(this.dealer) {
     // Draw cards in dealer's area
     var destination = document.getElementById('player0');
     destination.appendChild(image);
@@ -179,6 +174,21 @@ Player.prototype.hit = function () {
     var destination = document.getElementById(location);
     destination.appendChild(image);
   }
+
+  // Check if player was dealt a blackjack
+  if (this.hand.blackJack && !this.dealer){
+    newStatus(this.ID+' drew 21!');
+    this.playing = false;
+    this.blackJack = true;
+  }
+
+  // Only check hand if player has hit, not been dealt to
+  if(this.hand.cards.length > 2){
+    this.checkHand();
+  }
+};
+
+Player.prototype.checkHand = function() {
   if (this.hand.bust){
     newStatus(this.ID+' busted.');
     this.playing = false;
@@ -192,8 +202,8 @@ Player.prototype.hit = function () {
     // setOrder();
   } else if (this.hand.score===21 && !this.dealer){
     newStatus(this.ID+' scored 21!');
-    this.playing===false;
-    //setOrder();
+    this.playing = false;
+    setOrder();
   }
 };
 
@@ -206,7 +216,6 @@ Player.prototype.stay = function() {
 };
 
 Player.prototype.newGame = function(){
-  console.log('creating new hand for ' + this.ID);
   this.hand=new Hand;
   this.playing = true;
 };
@@ -230,7 +239,7 @@ Hand.prototype.add = function(card){
       this.score-=10;
   }
   if (this.score>21){
-      this.bust = true;
+    this.bust = true;
   } else if(this.score === 21 && this.cards.length===2) {
     this.blackJack = true;
   }
@@ -310,10 +319,12 @@ var players = [];
 // USE THIS WHEN LIVE
 var playersNames = JSON.parse(localStorage.getItem('players'));
 var current = -1;
+
 //Create deck for the game
 var deck;
 
 var setOrder = function() {
+  // Initial change of order
   for (var i in players){
     if((players[i].order-1 === 0)) {
       players[i].order = players.length -1;
@@ -321,14 +332,19 @@ var setOrder = function() {
       players[i].order -= 1;
     }
   }
+
+  // Check if new player 1 has a blackjack, if so move again
+  for (var j in players) {
+    if(players[j].hand.blackJack && players[j].order === 1){
+      setOrder();
+    }
+  }
   movePlayerCards();
 };
 
 var resetOrder = function() {
-  console.log("reseting players")
   for (var i = 0; i < players.length -1; i++){
     players[i].order = i + 1;
-    console.log(players[i].ID + " is now " + players[i].order);
   }
   movePlayerCards();
 };
@@ -339,7 +355,7 @@ var eventhandler = function(press) { //this is our event handler for hitting and
       if (players[current].playing){//condition, only hit or stay if the current player is still playing
         let key = press.char || press.charCode || press.which;
         if (key === 32) { //if the user presses space:
-          playHitSound()
+          playHitSound();
           players[current].hit();//player is dealt a card
           // Check to see if player has busted or blackJack to set 'playing' to false
           if(players[current].blackJack){
@@ -351,7 +367,7 @@ var eventhandler = function(press) { //this is our event handler for hitting and
           }
         } else if (key === 13) {// if user presses enter
           // function call back playerStand()
-          playStandSound()
+          playStandSound();
           players[current].stay();
           nextPlayer();
         }
@@ -399,20 +415,19 @@ var dealcards = function(){
 
 var nextPlayer = function(){
   current++;
-  // Dealer card flip check
-  if(players[current].ID === 'Dealer'){
-    var target = document.getElementById('player0');
-    target.firstChild.src = players[current].hand.cards[0][0].src;
-  }
 
   newStatus(players[current].ID+'s turn, current score: '+players[current].hand.score);
   if(players[current].dealer){//if the current player is the dealer
+    // Flip the dealer's first card
+    var target = document.getElementById('player0');
+    target.firstChild.src = players[current].hand.cards[0][0].src;
     dealerTurn();
   }else if (current<players.length-1){
     window.addEventListener('keypress', eventhandler);
     if(!players[current].playing && players[current].hand.blackJack){
       newStatus(players[current].ID+' scored blackjack off of the draw!');
       setOrder();
+      movePlayerCards();
       nextPlayer();
     }
   }
@@ -460,10 +475,10 @@ var checkScores = function(){
       var dealerbust= (players[players.length-1].busted);
       var dealerScore = players[players.length-1].hand.score;
       if (!players[current].busted){
-        if (players[current].hand.score==dealerScore){
+        if (players[current].hand.score==dealerScore){ //Player ties with dealer = wash
           players[current].wins+=0;
           newStatus(players[current].ID+' washed.');
-        }else if (players[current].hand.score>dealerScore||dealerbust){
+        }else if (players[current].hand.score>dealerScore||dealerbust){ //Player beats dealer, or dealer busts = win
           players[current].wins++;
           newStatus(players[current].ID+' won their hand.');
         }else{
@@ -487,10 +502,6 @@ var checkScores = function(){
   button2.style.display = 'block';
 };
 
-var testGame = function() {
-  gamePlay();
-};
-
 var nextGame = function(event) {
   var event = event;
   var button1 = document.getElementById('continue');
@@ -509,7 +520,7 @@ var nextGame = function(event) {
 };
 
 var gameControls = document.getElementById('gameControls');
-gameControls.addEventListener('click', nextGame)
+gameControls.addEventListener('click', nextGame);
 
 // pop up function
 var popUpEl = document.getElementById('popUpRules');
@@ -518,5 +529,5 @@ popUpEl.addEventListener('click', (e) => {
   popup.classList.toggle('appear');
 });
 // function calls
-testGame();
+gamePlay();
 
