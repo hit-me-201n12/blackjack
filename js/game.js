@@ -190,7 +190,7 @@ Player.prototype.hit = function () {
     this.playing=false;
     this.blackJack=true;
     // setOrder();
-  } else if (this.hand.score===21){
+  } else if (this.hand.score===21 && this){
     newStatus(this.ID+' scored 21!');
     this.playing===false;
     //setOrder();
@@ -226,8 +226,8 @@ Hand.prototype.add = function(card){
   }
   this.score+=card[0].points;
   while(this.score > 21 && this.ace>0) {
-      this.ace--
-      this.points-10;
+      this.ace--;
+      this.score-=10;
   }
   if (this.score>21){
       this.bust = true;
@@ -309,13 +309,7 @@ var players = [];
 
 // USE THIS WHEN LIVE
 var playersNames = JSON.parse(localStorage.getItem('players'));
-for (var y=0 ; y<playersNames.length ; y++){
-  players.push(new Player(playersNames[y], false));
-}
 var current = -1;
-//create a dealer and push him to position 0 in players
-players.push(new Player('Dealer', true));
-console.log(players);
 //Create deck for the game
 var deck;
 
@@ -376,7 +370,12 @@ var gamePlay = function() {
 };
 
 var newRound = function (){
-  gameCounter++;
+  for (var y=0 ; y<playersNames.length ; y++){
+    players.push(new Player(playersNames[y], false));
+  }
+  //create a dealer and push him to position 0 in players
+  players.push(new Player('Dealer', true));
+  console.log(players);
   deck = new Deck();
   deck.build();
   deck.shuffle();
@@ -501,16 +500,11 @@ var nextGame = function(event) {
   var option = event.target.id;
   if (option === 'quit'){
     window.location.href = 'home.html';
-    clearPlayerCards();
-    clearDealerCards();
-    gamePlay();
+    
   } else if (option === 'continue') {
     console.log('resetting game');
-    playIntroSound()
-    resetOrder();
-    clearPlayerCards();
-    clearDealerCards();
-    gamePlay();
+    localStorage.setItem('players', JSON.stringify(playersNames));
+    window.open('game.html', '_self');
   }
 };
 
