@@ -134,12 +134,10 @@ function Player(ID, dealer) {
 
 Player.prototype.hit = function () {
   this.hand.add(deck.deal());
-
   if (this.hand.cards.length>2 && !this.dealer){
     newStatus(this.ID+' hit');
     newStatus(this.hand.score);
   }
-
   var image = document.createElement('img');
   // Dealer card flip or normal image
   if(this.ID === 'Dealer' && this.hand.cards.length === 1){
@@ -148,7 +146,6 @@ Player.prototype.hit = function () {
     image.src = this.hand.cards[this.hand.cards.length -1][0].src;
   }
   image.classList.add('cards');
-
   // New HTML Rendering
   if(this.ID === 'Dealer') {
     // Draw cards in dealer's area
@@ -188,7 +185,7 @@ Player.prototype.hit = function () {
     this.busted = true;
     setOrder();
   }
-  if (this.hand.blackJack){
+  if (this.hand.blackJack && !this.dealer){
     newStatus(this.ID+' drew 21!');
     this.playing=false;
     this.blackJack=true;
@@ -196,7 +193,7 @@ Player.prototype.hit = function () {
   } else if (this.hand.score===21){
     newStatus(this.ID+' scored 21!');
     this.playing===false;
-    setOrder();
+    //setOrder();
   }
 };
 
@@ -228,13 +225,12 @@ Hand.prototype.add = function(card){
     this.ace++;
   }
   this.score+=card[0].points;
-  if(this.score > 21) {
-    if (this.ace>0){
-      this.score-=10;
-      this.ace--;
-    }else{
+  while(this.score > 21 && this.ace>0) {
+      this.ace--
+      this.points-10;
+  }
+  if (this.score>21){
       this.bust = true;
-    }
   } else if(this.score === 21 && this.cards.length===2) {
     this.blackJack = true;
   }
@@ -307,16 +303,19 @@ function updateScroll(){
 /////////////////////////////////////////////////////////
 
 var players = [];
-players.push(new Player('connor', false));
-players.push(new Player('michael', false));
-players.push(new Player('skyler', false));
+// players.push(new Player('connor', false));
+// players.push(new Player('michael', false));
+// players.push(new Player('skyler', false));
 
 // USE THIS WHEN LIVE
-// var players = JSON.parse(localStorage.getItem('players'));
-
+var playersNames = JSON.parse(localStorage.getItem('players'));
+for (var y=0 ; y<playersNames.length ; y++){
+  players.push(new Player(playersNames[y], false));
+}
 var current = -1;
 //create a dealer and push him to position 0 in players
 players.push(new Player('Dealer', true));
+console.log(players);
 //Create deck for the game
 var deck;
 
