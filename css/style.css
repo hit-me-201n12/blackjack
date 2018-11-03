@@ -96,14 +96,34 @@ input, option {
 	font-family: 'Press start 2P', monospace, sans-serif; 
 }
 .button{
-padding: 5px; 
-background-color: rgb(68, 184, 68);
-font-family: 'Press start 2P', monospace, sans-serif; 
+	background-color: rgb(68, 184, 68);
+	font-family: 'Press start 2P', monospace, sans-serif; 
+	padding: 5px; 
 }
 
-a:link, a:visited {
+a:link, a:visited{
 	color:white;
+	text-decoration: none;
 }
+
+/* image hovers for real pics! */
+#mike:hover{
+	content: url(../img/michael.png);
+	z-index: 50;
+}
+#karl:hover{
+	content: url(../img/karl.jpg);
+	z-index:50;
+}
+#skyler:hover{
+	content: url(../img/skyler1.png);
+	z-index:50;
+}
+#connor:hover{
+	content: url(../img/connor.png);
+	z-index:50;
+}
+
 
 footer{
 	text-align: center;
@@ -134,8 +154,11 @@ footer{
 	margin: -17px 150px;
     float: right;
     padding: -10px;
-    background: black;	
+	background: black;	
 }
+/* #nameDiv{
+	color: mediumblue;
+} */
 
 /* box content -- three divs stacked inside parent container */
 #specializations {
